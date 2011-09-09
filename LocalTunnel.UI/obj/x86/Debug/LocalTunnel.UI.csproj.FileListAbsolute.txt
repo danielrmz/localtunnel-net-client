@@ -1,0 +1,16 @@
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.Main.resources
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.Properties.Resources.resources
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\LocalTunnel.UI.exe.config
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\LocalTunnel.UI.exe
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\LocalTunnel.UI.pdb
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\LocalTunnel.Library.dll
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\Tamir.SharpSSH.dll
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\Org.Mentalis.Security.dll
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\DiffieHellman.dll
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\LocalTunnel.Library.pdb
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\Tamir.SharpSSH.pdb
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.exe
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.pdb

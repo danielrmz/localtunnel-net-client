@@ -1,0 +1,11 @@
+C:\Projects\Localtunnel\Localtunnel\bin\Release\localtunnel.exe.config
+C:\Projects\Localtunnel\Localtunnel\bin\Release\localtunnel.exe
+C:\Projects\Localtunnel\Localtunnel\bin\Release\localtunnel.pdb
+C:\Projects\Localtunnel\Localtunnel\bin\Release\LocalTunnel.Library.dll
+C:\Projects\Localtunnel\Localtunnel\bin\Release\Tamir.SharpSSH.dll
+C:\Projects\Localtunnel\Localtunnel\bin\Release\Org.Mentalis.Security.dll
+C:\Projects\Localtunnel\Localtunnel\bin\Release\DiffieHellman.dll
+C:\Projects\Localtunnel\Localtunnel\bin\Release\LocalTunnel.Library.pdb
+C:\Projects\Localtunnel\Localtunnel\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Projects\Localtunnel\Localtunnel\obj\x86\Release\localtunnel.exe
+C:\Projects\Localtunnel\Localtunnel\obj\x86\Release\localtunnel.pdb
