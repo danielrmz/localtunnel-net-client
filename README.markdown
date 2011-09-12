@@ -6,8 +6,7 @@ Install & Use
 Download or git clone a copy of the repo, after that there are two ways to use the service:
 
 * From the command line, go to LocalTunnel.Console/bin/Release/ and run:
-   
-> localtunnel.exe port /path/to/publickey
+   `localtunnel.exe port /path/to/publickey`
 
 * UI-based, open LocalTunnel.UI/bin/Debug/LocalTunnel.UI.exe and enter the required info. I'll try to set up a frequent port jump list for Win7
 
