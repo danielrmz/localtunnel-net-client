@@ -6,9 +6,13 @@ Install & Use
 Download or git clone a copy of the repo, after that there are two ways to use the service:
 
 * From the command line, go to LocalTunnel.Console/bin/Release/ and run:
-   `localtunnel.exe port /path/to/publickey`
+   `localtunnel.exe port [/path/to/publickey.pub]`
 
 * UI-based, open LocalTunnel.UI/bin/Debug/LocalTunnel.UI.exe and enter the required info. I'll try to set up a frequent port jump list for Win7
+
+
+You can set a public key if you have one, or it will be automatically generated. 
+A service host can be set optionally through the ui, hence if you host your own localtunnel server. 
 
 
 Authors
