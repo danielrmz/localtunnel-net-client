@@ -58,5 +58,11 @@ namespace LocalTunnel.Models
         [DataMember]
         public string user { get; set; }
 
+        /// <summary>
+        /// Error received if found.
+        /// </summary>
+        [DataMember]
+        public string error { get; set; }
+
     }
 }

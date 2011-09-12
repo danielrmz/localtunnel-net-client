@@ -169,6 +169,18 @@ namespace Tamir.SharpSsh.jsch
 			known_hosts.remove(foo, type, key); 
 		}
 		*/
+
+        /// <summary>
+        /// Adds an identity, no passphrase
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="pair"></param>
+        public void addIdentity(string name, KeyPair pair)
+        {
+            Identity identity = new IdentityFile(name, pair, this);
+            identities.Add(identity);
+        }
+
 		public void addIdentity(String foo) 
 		{
 			addIdentity(foo, (String)null);

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="ServiceException.cs" />
     <Compile Include="Tunnel.cs" />
     <Compile Include="Models\ConfigurationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -56,18 +56,27 @@ namespace LocalTunnel.UI
 
             stripStatus.Text = string.Format("Creating tunnel to port {0}...", port);
 
-            Tunnel tunnel = (new Tunnel(port, _SSHKeyName).Execute());
+            try
+            {
+                Tunnel tunnel = (File.Exists(_SSHKeyName)) ?  (new Tunnel(port, _SSHKeyName)) : new Tunnel(port);
 
-            tunnelBindingSource.Add(tunnel);
+                if(chkSpecify.Checked) {
+                    tunnel.ServiceHost = string.IsNullOrEmpty(txtServiceHost.Text.Trim()) ? "open.localtunnel.com" : txtServiceHost.Text.Trim();
+                }
+            
+                tunnel.Execute();
+                tunnelBindingSource.Add(tunnel);
 
-            Clipboard.SetDataObject(string.Format("http://{0}/", tunnel.TunnelHost));
-
-            stripStatus.Text = string.Format("Tunnel to {0} created!, copied to clipboard", port);
-
-            txtPort.Value = 80;
-
-            cmdTunnel.Enabled = true;
-
+                Clipboard.SetDataObject(string.Format("http://{0}/", tunnel.TunnelHost));
+                stripStatus.Text = string.Format("Tunnel to {0} created!, copied to clipboard", port);
+                txtPort.Value = 80;
+                cmdTunnel.Enabled = true;
+            }
+            catch (ServiceException se)
+            {
+                stripStatus.Text = string.Format("Error: {0}", se.Message);
+                cmdTunnel.Enabled = true;
+            } 
         }
 
         /// <summary>
@@ -77,11 +86,7 @@ namespace LocalTunnel.UI
         /// <param name="e"></param>
         private void Main_Load(object sender, EventArgs e)
         {
-            if (!File.Exists(_SSHKeyName))
-            {
-                lblKey.Visible = true;
-                cmdTunnel.Enabled = false;
-            }
+            
         }     
 
         /// <summary>
@@ -110,7 +115,6 @@ namespace LocalTunnel.UI
             File.Copy(privateKey, _SSHKeyName.Replace(".pub",""));
 
             cmdTunnel.Enabled = true;
-            lblKey.Visible = false;
         }
 
         /// <summary>
@@ -195,6 +199,11 @@ namespace LocalTunnel.UI
 
             stripStatus.Text = string.Format("{0} copied to clipboard", tunnel.TunnelHost);
 
+        }
+
+        private void chkSpecify_CheckedChanged(object sender, EventArgs e)
+        {
+           txtServiceHost.Visible = chkSpecify.Checked;
         }
 
 

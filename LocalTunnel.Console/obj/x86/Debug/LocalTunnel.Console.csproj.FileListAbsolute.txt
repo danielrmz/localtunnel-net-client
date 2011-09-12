@@ -10,3 +10,15 @@ C:\Projects\Localtunnel\Localtunnel\bin\Debug\Tamir.SharpSSH.pdb
 C:\Projects\Localtunnel\Localtunnel\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Projects\Localtunnel\Localtunnel\obj\x86\Debug\localtunnel.exe
 C:\Projects\Localtunnel\Localtunnel\obj\x86\Debug\localtunnel.pdb
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\localtunnel.exe.config
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\localtunnel.exe
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\localtunnel.pdb
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\LocalTunnel.Library.dll
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\Tamir.SharpSSH.dll
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\Org.Mentalis.Security.dll
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\DiffieHellman.dll
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\LocalTunnel.Library.pdb
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\Tamir.SharpSSH.pdb
+C:\Projects\Localtunnel\LocalTunnel.Console\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Localtunnel\LocalTunnel.Console\obj\x86\Debug\localtunnel.exe
+C:\Projects\Localtunnel\LocalTunnel.Console\obj\x86\Debug\localtunnel.pdb

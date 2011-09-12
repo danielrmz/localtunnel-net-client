@@ -80,6 +80,246 @@ namespace Tamir.SharpSsh.jsch
 
 		private bool encrypted=true;
 
+        internal IdentityFile(string identity, KeyPair pair, JSch jsch) 
+        {
+
+            this.identity = identity;
+            this.jsch = jsch;
+            try
+            {
+                Type c = Type.GetType(jsch.getConfig("3des-cbc"));
+                cipher = (Cipher)Activator.CreateInstance(c);
+                key = new byte[cipher.getBlockSize()];   // 24
+                iv = new byte[cipher.getIVSize()];       // 8
+                c = Type.GetType(jsch.getConfig("md5"));
+                hash = (HASH)(Activator.CreateInstance(c));
+                hash.init();
+
+                MemoryStream o = new MemoryStream();
+                pair.writePrivateKey(o);
+
+                byte[] buf = o.GetBuffer();
+                int len = buf.Length; 
+
+                #region Private key verification
+
+                int i = 0;
+                while (i < len)
+                {
+                    if (buf[i] == 'B' && buf[i + 1] == 'E' && buf[i + 2] == 'G' && buf[i + 3] == 'I')
+                    {
+                        i += 6;
+                        if (buf[i] == 'D' && buf[i + 1] == 'S' && buf[i + 2] == 'A') { type = DSS; }
+                        else if (buf[i] == 'R' && buf[i + 1] == 'S' && buf[i + 2] == 'A') { type = RSA; }
+                        else if (buf[i] == 'S' && buf[i + 1] == 'S' && buf[i + 2] == 'H')
+                        { // FSecure
+                            type = UNKNOWN;
+                            keytype = FSECURE;
+                        }
+                        else
+                        {
+                            //System.out.println("invalid format: "+identity);
+                            throw new JSchException("invaid privatekey: " + identity);
+                        }
+                        i += 3;
+                        continue;
+                    }
+                    if (buf[i] == 'C' && buf[i + 1] == 'B' && buf[i + 2] == 'C' && buf[i + 3] == ',')
+                    {
+                        i += 4;
+                        for (int ii = 0; ii < iv.Length; ii++)
+                        {
+                            iv[ii] = (byte)(((a2b(buf[i++]) << 4) & 0xf0) +
+                                (a2b(buf[i++]) & 0xf));
+                        }
+                        continue;
+                    }
+                    if (buf[i] == 0x0d &&
+                        i + 1 < buf.Length && buf[i + 1] == 0x0a)
+                    {
+                        i++;
+                        continue;
+                    }
+                    if (buf[i] == 0x0a && i + 1 < buf.Length)
+                    {
+                        if (buf[i + 1] == 0x0a) { i += 2; break; }
+                        if (buf[i + 1] == 0x0d &&
+                            i + 2 < buf.Length && buf[i + 2] == 0x0a)
+                        {
+                            i += 3; break;
+                        }
+                        bool inheader = false;
+                        for (int j = i + 1; j < buf.Length; j++)
+                        {
+                            if (buf[j] == 0x0a) break;
+                            //if(buf[j]==0x0d) break;
+                            if (buf[j] == ':') { inheader = true; break; }
+                        }
+                        if (!inheader)
+                        {
+                            i++;
+                            encrypted = false;    // no passphrase
+                            break;
+                        }
+                    }
+                    i++;
+                }
+
+                if (type == ERROR)
+                {
+                    throw new JSchException("invaid privatekey: " + identity);
+                }
+
+
+                int start = i;
+                while (i < len)
+                {
+                    if (buf[i] == 0x0a)
+                    {
+                        bool xd = (buf[i - 1] == 0x0d);
+                        Array.Copy(buf, i + 1,
+                            buf,
+                            i - (xd ? 1 : 0),
+                            len - i - 1 - (xd ? 1 : 0)
+                            );
+                        if (xd) len--;
+                        len--;
+                        continue;
+                    }
+                    if (buf[i] == '-') { break; }
+                    i++;
+                }
+                encoded_data = Util.fromBase64(buf, start, i - start);
+
+                if (encoded_data.Length > 4 &&            // FSecure
+                    encoded_data[0] == (byte)0x3f &&
+                    encoded_data[1] == (byte)0x6f &&
+                    encoded_data[2] == (byte)0xf9 &&
+                    encoded_data[3] == (byte)0xeb)
+                {
+
+                    Buffer _buf = new Buffer(encoded_data);
+                    _buf.getInt();  // 0x3f6ff9be
+                    _buf.getInt();
+                    byte[] _type = _buf.getString();
+                    //System.out.println("type: "+new String(_type)); 
+                    byte[] _cipher = _buf.getString();
+                    String s_cipher = System.Text.Encoding.Default.GetString(_cipher);
+                    //System.out.println("cipher: "+cipher); 
+                    if (s_cipher.Equals("3des-cbc"))
+                    {
+                        _buf.getInt();
+                        byte[] foo = new byte[encoded_data.Length - _buf.getOffSet()];
+                        _buf.getByte(foo);
+                        encoded_data = foo;
+                        encrypted = true;
+                        throw new JSchException("unknown privatekey format: " + identity);
+                    }
+                    else if (s_cipher.Equals("none"))
+                    {
+                        _buf.getInt();
+                        //_buf.getInt();
+
+                        encrypted = false;
+
+                        byte[] foo = new byte[encoded_data.Length - _buf.getOffSet()];
+                        _buf.getByte(foo);
+                        encoded_data = foo;
+                    }
+
+                }
+
+
+                #endregion
+
+                #region Public Key verification
+
+                try
+                {
+                    buf = pair.getPublicKeyBlob();
+                    len = buf.Length;
+                }
+                catch
+                {
+                    return;
+                }
+
+                if (buf.Length > 4 &&             // FSecure's public key
+                    buf[0] == '-' && buf[1] == '-' && buf[2] == '-' && buf[3] == '-')
+                {
+
+                    i = 0;
+                    do { i++; } while (buf.Length > i && buf[i] != 0x0a);
+                    if (buf.Length <= i) return;
+
+                    while (true)
+                    {
+                        if (buf[i] == 0x0a)
+                        {
+                            bool inheader = false;
+                            for (int j = i + 1; j < buf.Length; j++)
+                            {
+                                if (buf[j] == 0x0a) break;
+                                if (buf[j] == ':') { inheader = true; break; }
+                            }
+                            if (!inheader)
+                            {
+                                i++;
+                                break;
+                            }
+                        }
+                        i++;
+                    }
+                    if (buf.Length <= i) return;
+
+                    start = i;
+                    while (i < len)
+                    {
+                        if (buf[i] == 0x0a)
+                        {
+                            Array.Copy(buf, i + 1, buf, i, len - i - 1);
+                            len--;
+                            continue;
+                        }
+                        if (buf[i] == '-') { break; }
+                        i++;
+                    }
+                    publickeyblob = Util.fromBase64(buf, start, i - start);
+
+                    if (type == UNKNOWN)
+                    {
+                        if (publickeyblob[8] == 'd')
+                        {
+                            type = DSS;
+                        }
+                        else if (publickeyblob[8] == 'r')
+                        {
+                            type = RSA;
+                        }
+                    }
+                }
+                else
+                {
+                    if (buf[0] != 's' || buf[1] != 's' || buf[2] != 'h' || buf[3] != '-') return;
+                    i = 0;
+                    while (i < len) { if (buf[i] == ' ')break; i++; } i++;
+                    if (i >= len) return;
+                    start = i;
+                    while (i < len) { if (buf[i] == ' ')break; i++; }
+                    publickeyblob = Util.fromBase64(buf, start, i - start);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Identity: " + e);
+                if (e is JSchException) throw (JSchException)e;
+                throw new JSchException(e.ToString());
+            }
+            
+                #endregion
+        }
+
 		internal IdentityFile(String identity, JSch jsch) 
 		{
 			this.identity=identity;
@@ -93,12 +333,13 @@ namespace Tamir.SharpSsh.jsch
 				c=Type.GetType(jsch.getConfig("md5"));
 				hash=(HASH)(Activator.CreateInstance(c));
 				hash.init();
+                
 				FileInfo file=new FileInfo(identity);
 				FileStream fis = File.OpenRead(identity);
 				byte[] buf=new byte[(int)(file.Length)];
 				int len=fis.Read(buf, 0, buf.Length);
 				fis.Close();
-
+                
 				int i=0;
 				while(i<len)
 				{

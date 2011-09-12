@@ -29,37 +29,38 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.publicKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grdData = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tunnelHostDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tunnelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.txtPort = new System.Windows.Forms.NumericUpDown();
             this.cmdTunnel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblKey = new System.Windows.Forms.Label();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tunnelHostDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tunnelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkSpecify = new System.Windows.Forms.CheckBox();
+            this.txtServiceHost = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tunnelBindingSource)).BeginInit();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tunnelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -68,7 +69,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(442, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(445, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -108,43 +109,52 @@
             this.grdData.AllowUserToResizeRows = false;
             this.grdData.AutoGenerateColumns = false;
             this.grdData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.grdData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2,
             this.tunnelHostDataGridViewTextBoxColumn,
             this.dataGridViewTextBoxColumn1});
             this.grdData.DataSource = this.tunnelBindingSource;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdData.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdData.DefaultCellStyle = dataGridViewCellStyle2;
             this.grdData.Location = new System.Drawing.Point(15, 79);
             this.grdData.MultiSelect = false;
             this.grdData.Name = "grdData";
             this.grdData.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdData.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdData.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.grdData.Size = new System.Drawing.Size(415, 165);
             this.grdData.TabIndex = 1;
             this.grdData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdData_CellMouseUp);
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "LocalPort";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Port";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 80;
             // 
             // contextMenuStrip1
             // 
@@ -154,13 +164,56 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(101, 52);
             // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Image = global::LocalTunnel.UI.Properties.Resources.copy_icon;
+            this.copyToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(100, 24);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // stopToolStripMenuItem
+            // 
+            this.stopToolStripMenuItem.Image = global::LocalTunnel.UI.Properties.Resources.original_stop_icon;
+            this.stopToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.stopToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(100, 24);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
+            // tunnelHostDataGridViewTextBoxColumn
+            // 
+            this.tunnelHostDataGridViewTextBoxColumn.ContextMenuStrip = this.contextMenuStrip1;
+            this.tunnelHostDataGridViewTextBoxColumn.DataPropertyName = "TunnelHost";
+            this.tunnelHostDataGridViewTextBoxColumn.HeaderText = "Host";
+            this.tunnelHostDataGridViewTextBoxColumn.Name = "tunnelHostDataGridViewTextBoxColumn";
+            this.tunnelHostDataGridViewTextBoxColumn.ReadOnly = true;
+            this.tunnelHostDataGridViewTextBoxColumn.Width = 180;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Created";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Created";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 112;
+            // 
+            // tunnelBindingSource
+            // 
+            this.tunnelBindingSource.DataSource = typeof(LocalTunnel.Library.Tunnel);
+            this.tunnelBindingSource.Sort = "Created desc";
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stripStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 257);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(442, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(445, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -212,7 +265,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.lblKey);
+            this.groupBox1.Controls.Add(this.txtServiceHost);
+            this.groupBox1.Controls.Add(this.chkSpecify);
             this.groupBox1.Controls.Add(this.cmdTunnel);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtPort);
@@ -222,80 +276,37 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             // 
-            // lblKey
-            // 
-            this.lblKey.AutoSize = true;
-            this.lblKey.ForeColor = System.Drawing.Color.Red;
-            this.lblKey.Location = new System.Drawing.Point(242, 19);
-            this.lblKey.Name = "lblKey";
-            this.lblKey.Size = new System.Drawing.Size(146, 13);
-            this.lblKey.TabIndex = 6;
-            this.lblKey.Text = "Please specify a ssh-key pair.";
-            this.lblKey.Visible = false;
-            // 
             // openFile
             // 
             this.openFile.DefaultExt = "pub";
             this.openFile.FileName = "openFileDialog1";
             this.openFile.Filter = "Key files|*.pub";
             // 
-            // dataGridViewTextBoxColumn2
+            // chkSpecify
             // 
-            this.dataGridViewTextBoxColumn2.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "LocalPort";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Port";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 80;
+            this.chkSpecify.AutoSize = true;
+            this.chkSpecify.Location = new System.Drawing.Point(200, 18);
+            this.chkSpecify.Name = "chkSpecify";
+            this.chkSpecify.Size = new System.Drawing.Size(95, 17);
+            this.chkSpecify.TabIndex = 6;
+            this.chkSpecify.Text = "Specify Server";
+            this.chkSpecify.UseVisualStyleBackColor = true;
+            this.chkSpecify.CheckedChanged += new System.EventHandler(this.chkSpecify_CheckedChanged);
             // 
-            // tunnelHostDataGridViewTextBoxColumn
+            // txtServiceHost
             // 
-            this.tunnelHostDataGridViewTextBoxColumn.ContextMenuStrip = this.contextMenuStrip1;
-            this.tunnelHostDataGridViewTextBoxColumn.DataPropertyName = "TunnelHost";
-            this.tunnelHostDataGridViewTextBoxColumn.HeaderText = "Host";
-            this.tunnelHostDataGridViewTextBoxColumn.Name = "tunnelHostDataGridViewTextBoxColumn";
-            this.tunnelHostDataGridViewTextBoxColumn.ReadOnly = true;
-            this.tunnelHostDataGridViewTextBoxColumn.Width = 180;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "Created";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Created";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 112;
-            // 
-            // tunnelBindingSource
-            // 
-            this.tunnelBindingSource.DataSource = typeof(LocalTunnel.Library.Tunnel);
-            this.tunnelBindingSource.Sort = "Created desc";
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Image = global::LocalTunnel.UI.Properties.Resources.copy_icon;
-            this.copyToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(100, 24);
-            this.copyToolStripMenuItem.Text = "Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
-            // 
-            // stopToolStripMenuItem
-            // 
-            this.stopToolStripMenuItem.Image = global::LocalTunnel.UI.Properties.Resources.original_stop_icon;
-            this.stopToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.stopToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
-            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(100, 24);
-            this.stopToolStripMenuItem.Text = "Stop";
-            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            this.txtServiceHost.Location = new System.Drawing.Point(302, 16);
+            this.txtServiceHost.Name = "txtServiceHost";
+            this.txtServiceHost.Size = new System.Drawing.Size(98, 20);
+            this.txtServiceHost.TabIndex = 7;
+            this.txtServiceHost.Text = "open.localtunnel.com";
+            this.txtServiceHost.Visible = false;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 279);
+            this.ClientSize = new System.Drawing.Size(445, 279);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.grdData);
@@ -312,12 +323,12 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tunnelBindingSource)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tunnelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -334,7 +345,6 @@
         private System.Windows.Forms.Button cmdTunnel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblKey;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFile;
@@ -348,6 +358,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tunnelHostDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkSpecify;
+        private System.Windows.Forms.TextBox txtServiceHost;
     }
 }
 

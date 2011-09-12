@@ -1,0 +1,6 @@
+C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\bin\Release\Tamir.SharpSSH.dll
+C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Release\ResolveAssemblyReference.cache
+C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Release\Tamir.SharpSsh.jsch.examples.InputForm.resources
+C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Release\ResGen.read.1.tlog
+C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Release\ResGen.write.1.tlog
+C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Release\Tamir.SharpSSH.dll
