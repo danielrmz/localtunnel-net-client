@@ -9,8 +9,19 @@ using System.Web;
 
 namespace LocalTunnel.Library
 {
+    /// <summary>
+    /// Provides several generic utilities for the app
+    /// </summary>
     internal static class Utilities
     {
+
+        /// <summary>
+        /// Creates an HTTP Request of type POST
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
         public static T DoPost<T>(string url, Dictionary<string, string> paramters)
         {
             var populatedEndPoint = CreateFormattedPostRequest(paramters);
@@ -45,6 +56,12 @@ namespace LocalTunnel.Library
             }
         }
 
+        /// <summary>
+        /// Creates a web request
+        /// </summary>
+        /// <param name="endPoint"></param>
+        /// <param name="contentLength"></param>
+        /// <returns></returns>
         private static HttpWebRequest CreateWebRequest(string endPoint, Int32 contentLength)
         {
             var request = (HttpWebRequest)WebRequest.Create(endPoint);
@@ -56,6 +73,11 @@ namespace LocalTunnel.Library
             return request;
         }
 
+        /// <summary>
+        /// Formats the parameters of the request. 
+        /// </summary>
+        /// <param name="values"></param>
+        /// <returns></returns>
         private static string CreateFormattedPostRequest(Dictionary<string, string> values)
         {
             StringBuilder paramterBuilder = new StringBuilder();

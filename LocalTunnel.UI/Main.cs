@@ -32,15 +32,108 @@ using LocalTunnel.Models;
 using System.IO;
 using LocalTunnel.Library;
 
+using Microsoft.WindowsAPICodePack.Taskbar;
+using Microsoft.WindowsAPICodePack.Shell;
+using System.Reflection;
+
 namespace LocalTunnel.UI
 {
     public partial class Main : Form
     {
         private static string _SSHKeyName = "key.pub";
 
+        private TaskbarManager taskBarManager;
+
         public Main()
         {
             InitializeComponent();
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == MessageHelper.TunnelPort)
+            {
+                // Create new tunnel. 
+                try
+                {
+                    int messagePortId = m.WParam.ToInt32();
+                    Port port = Port.GetUsedPorts().Where(portdb => portdb.Id == messagePortId).First();
+                    if (port != null)
+                    {
+                        CreateTunnel(port.Number, _SSHKeyName, port.ServiceHost);
+                        notifyMessage.BalloonTipText = string.Format("Port {0} tunneled correctly, URL copied to clipboard", port.Number);
+                        notifyMessage.BalloonTipTitle = "localtunnel";
+                        notifyMessage.Visible = true; 
+                        notifyMessage.ShowBalloonTip(1000 * 15);
+                        MessageBox.Show(notifyMessage.BalloonTipText);
+                    }
+                }
+                catch (ServiceException se)
+                {
+                    // Show tooltip.
+                    MessageBox.Show("Error: " + se.Message);
+                }
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+        
+        /// <summary>
+        /// Creates the recently used ports jumplist
+        /// </summary>
+        private void CreateJumpList()
+        {
+            taskBarManager = TaskbarManager.Instance;
+            if (TaskbarManager.IsPlatformSupported)
+            {
+
+                JumpList list = JumpList.CreateJumpList();// JumpList.CreateJumpListForIndividualWindow(TaskbarManager.Instance.ApplicationId, this.Handle);
+                
+                // Separate by service hosts the recent ports.
+                Port.GetUsedPorts().GroupBy( p => p.ServiceHost).ToList().ForEach(group => {
+                    JumpListCustomCategory userActionsCategory = new JumpListCustomCategory(group.Key);
+
+                    group.OrderByDescending(p => p.UsedTimes).ToList().ForEach(port =>
+                    {
+                        JumpListLink userActionLink = new JumpListLink(Assembly.GetEntryAssembly().Location,
+                                                        port.Number.ToString())
+                                                        {
+                                                            Arguments = port.Id.ToString()
+                                                        };
+                        userActionsCategory.AddJumpListItems(userActionLink);
+                    });
+
+                    list.AddCustomCategories(userActionsCategory);
+                
+                });
+                
+                list.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Creates the localtunnel.
+        /// </summary>
+        /// <param name="port"></param>
+        /// <param name="sshKeyName"></param>
+        /// <param name="serviceHost"></param>
+        private void CreateTunnel(int port, string sshKeyName, string serviceHost)
+        {
+            stripStatus.Text = string.Format("Creating tunnel to port {0}...", port);
+
+            Tunnel tunnel = (File.Exists(sshKeyName)) ? (new Tunnel(port, sshKeyName)) : new Tunnel(port);
+
+            tunnel.Execute();
+            tunnelBindingSource.Add(tunnel);
+
+            Clipboard.SetDataObject(string.Format("http://{0}/", tunnel.TunnelHost));
+            stripStatus.Text = string.Format("Tunnel to {0} created!, copied to clipboard", port);
+            txtPort.Value = 80;
+            cmdTunnel.Enabled = true;
+
+            // Update jump list
+            CreateJumpList();
         }
 
         /// <summary>
@@ -52,42 +145,36 @@ namespace LocalTunnel.UI
         {
             cmdTunnel.Enabled = false;
 
-            int port = int.Parse(txtPort.Value.ToString());
-
-            stripStatus.Text = string.Format("Creating tunnel to port {0}...", port);
-
             try
             {
-                Tunnel tunnel = (File.Exists(_SSHKeyName)) ?  (new Tunnel(port, _SSHKeyName)) : new Tunnel(port);
+                int port = int.Parse(txtPort.Value.ToString());
+                string serviceHost = "open.localtunnel.com";
 
-                if(chkSpecify.Checked) {
-                    tunnel.ServiceHost = string.IsNullOrEmpty(txtServiceHost.Text.Trim()) ? "open.localtunnel.com" : txtServiceHost.Text.Trim();
+                if (chkSpecify.Checked && !string.IsNullOrEmpty(txtServiceHost.Text.Trim()))
+                {
+                    serviceHost = txtServiceHost.Text.Trim();
                 }
-            
-                tunnel.Execute();
-                tunnelBindingSource.Add(tunnel);
 
-                Clipboard.SetDataObject(string.Format("http://{0}/", tunnel.TunnelHost));
-                stripStatus.Text = string.Format("Tunnel to {0} created!, copied to clipboard", port);
-                txtPort.Value = 80;
-                cmdTunnel.Enabled = true;
+                CreateTunnel(port, _SSHKeyName, serviceHost);
             }
             catch (ServiceException se)
             {
                 stripStatus.Text = string.Format("Error: {0}", se.Message);
-                cmdTunnel.Enabled = true;
             } 
+            cmdTunnel.Enabled = true;
         }
 
         /// <summary>
-        /// Verifies if a key has been set if not, we cannot create tunnels
+        /// Handles jumplists
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Main_Load(object sender, EventArgs e)
+        private void Main_Shown(object sender, EventArgs e)
         {
-            
-        }     
+            this.CreateJumpList();
+            Program.HandleCmdLineArgs();
+        }
+
 
         /// <summary>
         /// Sets the public key
@@ -201,10 +288,17 @@ namespace LocalTunnel.UI
 
         }
 
+        /// <summary>
+        /// Toggles the service host textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chkSpecify_CheckedChanged(object sender, EventArgs e)
         {
            txtServiceHost.Visible = chkSpecify.Checked;
         }
+
+       
 
 
     }

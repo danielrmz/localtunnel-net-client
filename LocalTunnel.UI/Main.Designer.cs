@@ -51,9 +51,10 @@
             this.cmdTunnel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.openFile = new System.Windows.Forms.OpenFileDialog();
-            this.chkSpecify = new System.Windows.Forms.CheckBox();
             this.txtServiceHost = new System.Windows.Forms.TextBox();
+            this.chkSpecify = new System.Windows.Forms.CheckBox();
+            this.openFile = new System.Windows.Forms.OpenFileDialog();
+            this.notifyMessage = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -276,11 +277,14 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             // 
-            // openFile
+            // txtServiceHost
             // 
-            this.openFile.DefaultExt = "pub";
-            this.openFile.FileName = "openFileDialog1";
-            this.openFile.Filter = "Key files|*.pub";
+            this.txtServiceHost.Location = new System.Drawing.Point(302, 16);
+            this.txtServiceHost.Name = "txtServiceHost";
+            this.txtServiceHost.Size = new System.Drawing.Size(98, 20);
+            this.txtServiceHost.TabIndex = 7;
+            this.txtServiceHost.Text = "open.localtunnel.com";
+            this.txtServiceHost.Visible = false;
             // 
             // chkSpecify
             // 
@@ -293,14 +297,11 @@
             this.chkSpecify.UseVisualStyleBackColor = true;
             this.chkSpecify.CheckedChanged += new System.EventHandler(this.chkSpecify_CheckedChanged);
             // 
-            // txtServiceHost
+            // openFile
             // 
-            this.txtServiceHost.Location = new System.Drawing.Point(302, 16);
-            this.txtServiceHost.Name = "txtServiceHost";
-            this.txtServiceHost.Size = new System.Drawing.Size(98, 20);
-            this.txtServiceHost.TabIndex = 7;
-            this.txtServiceHost.Text = "open.localtunnel.com";
-            this.txtServiceHost.Visible = false;
+            this.openFile.DefaultExt = "pub";
+            this.openFile.FileName = "openFileDialog1";
+            this.openFile.Filter = "Key files|*.pub";
             // 
             // Main
             // 
@@ -318,7 +319,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Localtunnel Manager";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
-            this.Load += new System.EventHandler(this.Main_Load);
+            this.Shown += new System.EventHandler(this.Main_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).EndInit();
@@ -360,6 +361,7 @@
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSpecify;
         private System.Windows.Forms.TextBox txtServiceHost;
+        private System.Windows.Forms.NotifyIcon notifyMessage;
     }
 }
 

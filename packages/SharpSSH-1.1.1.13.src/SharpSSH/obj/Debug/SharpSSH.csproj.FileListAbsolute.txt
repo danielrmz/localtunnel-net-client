@@ -6,3 +6,21 @@ C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\ResGen
 C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\ResGen.write.1.tlog
 C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSSH.dll
 C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSSH.pdb
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\bin\Debug\Tamir.SharpSSH.dll
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\bin\Debug\Tamir.SharpSSH.pdb
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\ResolveAssemblyReference.cache
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSsh.jsch.examples.InputForm.resources
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\GenerateResource-ResGen.read.1.tlog
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\ResGen.read.1.tlog
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\GenerateResource-ResGen.write.1.tlog
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\ResGen.write.1.tlog
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSSH.dll
+Z:\daniel On My Mac\github\Projects\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSSH.pdb
+C:\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\bin\Debug\Tamir.SharpSSH.dll
+C:\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\bin\Debug\Tamir.SharpSSH.pdb
+C:\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\ResolveAssemblyReference.cache
+C:\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSsh.jsch.examples.InputForm.resources
+C:\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSSH.dll
+C:\localtunnel.NET\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSSH.pdb

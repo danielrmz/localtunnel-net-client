@@ -273,6 +273,7 @@ namespace LocalTunnel.Library
             }
 
             Created =  DateTime.Now;
+            Port.AddUsage(LocalPort, ServiceHost);
         }
 
         /// <summary>
@@ -321,5 +322,6 @@ namespace LocalTunnel.Library
 
         #endregion
 
+       
     }
 }
