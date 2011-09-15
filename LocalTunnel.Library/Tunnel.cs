@@ -142,19 +142,17 @@ namespace LocalTunnel.Library
         /// </summary>
         private string _publicKey { 
             get {
-                if (string.IsNullOrEmpty(PublicKeyFile))
+                if (!string.IsNullOrEmpty(PublicKeyFile) && !File.Exists(PublicKeyFile))
                 {
                     if (_keyPair == null)
                     {
                         throw new Exception("SSH Keys not set");
                     }
-                    MemoryStream o = new MemoryStream();
                     string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
-                    _keyPair.writePublicKey(o, comment);
-                    string str = System.Text.Encoding.Default.GetString(o.GetBuffer(), 0, o.GetBuffer().Length);
-                    string[] splitChar = new string[1];
-                    splitChar[0] = "\\n";
-                    return str.Substring(0, str.IndexOf(comment)) + comment;
+                    _keyPair.writePublicKey(PublicKeyFile, comment);
+                    _keyPair.writePrivateKey(PublicKeyFile.Replace(".pub", ""));
+
+                    return File.ReadAllText(PublicKeyFile);
                 }
                 else
                 {
@@ -181,7 +179,7 @@ namespace LocalTunnel.Library
         /// <summary>
         /// SSH Key pair generated for the tunnel
         /// </summary>
-        private KeyPair _keyPair { get; set; }
+        private KeyPair _keyPair;
 
         /// <summary>
         /// SSH 
@@ -196,14 +194,15 @@ namespace LocalTunnel.Library
         /// Simple constructor, key pairs are generated automatically.
         /// </summary>
         /// <param name="localPort"></param>
-        public Tunnel(int localPort)
-        {
-            this.LocalPort = localPort;
-            _keyPair = KeyPair.genKeyPair(this._jsch, KeyPair.RSA, 2048);        
-        }
+       // public Tunnel(int localPort)
+       // {
+        //    this.LocalPort = localPort;
+        //    _keyPair = KeyPair.genKeyPair(this._jsch, KeyPair.RSA, 2048);        
+        //}
 
         /// <summary>
         /// Constructor that assumes the private key file is removing *.pub from the public key filename.
+        /// Also if the file is not found a keypair is created on the specified route.
         /// </summary>
         /// <param name="localPort">Port to be forwarded</param>
         /// <param name="publicKeyFile">Key to add to LocalTunnel's service</param>
@@ -211,6 +210,8 @@ namespace LocalTunnel.Library
         {
             this.LocalPort = localPort;
             this.PublicKeyFile = publicKeyFile;
+
+            _keyPair = KeyPair.genKeyPair(this._jsch, KeyPair.RSA, 1024);  
         }
 
         /// <summary>
@@ -224,6 +225,16 @@ namespace LocalTunnel.Library
             this.LocalPort = localPort;
             this.PublicKeyFile  = publicKeyFile;
             this.PrivateKeyFile = privateKeyFile;
+
+            if (!File.Exists(publicKeyFile))
+            {
+                throw new ServiceException("The public key was not found");
+            }
+
+            if (!File.Exists(privateKeyFile))
+            {
+                throw new ServiceException("The private key was not found");
+            }
         }
 
         #endregion
@@ -287,20 +298,14 @@ namespace LocalTunnel.Library
                 JSch jsch = new JSch();
                 
                 // Use the private key to identify the user
-                if (_keyPair == null)
-                {
-                    jsch.addIdentity(PrivateKeyFile);
-                }
-                else
-                {
-                    jsch.addIdentity("localtunnel", _keyPair);
-                }
-
+                jsch.addIdentity(PrivateKeyFile);
+                
                 // Create a new SSH session
                 _session = jsch.getSession(_config.user, _config.host);
 
                 UserInfo ui = new MyUserInfo();
                 _session.setUserInfo(ui);
+                _session.setConfig(new System.Collections.Hashtable(){ {"StrictHostKeyChecking", "no"} });
 
                 // Connect
                 _session.connect();
@@ -313,8 +318,7 @@ namespace LocalTunnel.Library
             }
             catch (Exception e)
             {
-
-                Console.WriteLine(e);
+                throw new ServiceException(e.Message);
             }
 
 

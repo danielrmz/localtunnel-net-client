@@ -1,0 +1,10 @@
+Release/*
+Debug/*
+key
+key.pub
+build.force
+*.cache
+*.tlog
+*.exe
+*.manifest
+*.application

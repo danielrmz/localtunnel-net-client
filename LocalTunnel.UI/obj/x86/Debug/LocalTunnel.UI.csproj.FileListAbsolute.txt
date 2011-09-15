@@ -65,3 +65,11 @@ C:\localtunnel.NET\LocalTunnel.UI\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\localtunnel.NET\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.TrustInfo.xml
 C:\localtunnel.NET\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.exe.manifest
 C:\localtunnel.NET\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.application
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\App_Data\Data.sdf
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\LocalTunnel.UI.exe.manifest
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\LocalTunnel.UI.application
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\Microsoft.WindowsAPICodePack.pdb
+C:\Projects\Localtunnel\LocalTunnel.UI\bin\Debug\Microsoft.WindowsAPICodePack.Shell.pdb
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.TrustInfo.xml
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.exe.manifest
+C:\Projects\Localtunnel\LocalTunnel.UI\obj\x86\Debug\LocalTunnel.UI.application

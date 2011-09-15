@@ -59,14 +59,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LocalTunnel.Library.dll" size="48128">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LocalTunnel.Library.dll" size="47616">
       <assemblyIdentity name="LocalTunnel.Library" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>WHGxZ8oKH8Ll/xhgXU+MqysUsVs=</dsig:DigestValue>
+        <dsig:DigestValue>v7C0ppUOEfQuNSYcTdZwuDHmCuM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,7 +78,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>bqNMMa7+8Jxw92AwXSMih6EKe5w=</dsig:DigestValue>
+        <dsig:DigestValue>hRIICCbOQUpiRUPmjOMEBUO2Xow=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

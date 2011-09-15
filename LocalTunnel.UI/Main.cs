@@ -40,15 +40,30 @@ namespace LocalTunnel.UI
 {
     public partial class Main : Form
     {
+        /// <summary>
+        /// local filename of the public key file to be used
+        /// </summary>
         private static string _SSHKeyName = "key.pub";
 
+        /// <summary>
+        /// Taskbar manager 
+        /// </summary>
         private TaskbarManager taskBarManager;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Main()
         {
             InitializeComponent();
         }
 
+        #region Jumplist methods
+
+        /// <summary>
+        /// Listen for window messages 
+        /// </summary>
+        /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == MessageHelper.TunnelPort)
@@ -88,7 +103,7 @@ namespace LocalTunnel.UI
             if (TaskbarManager.IsPlatformSupported)
             {
 
-                JumpList list = JumpList.CreateJumpList();// JumpList.CreateJumpListForIndividualWindow(TaskbarManager.Instance.ApplicationId, this.Handle);
+                JumpList list = JumpList.CreateJumpList();
                 
                 // Separate by service hosts the recent ports.
                 Port.GetUsedPorts().GroupBy( p => p.ServiceHost).ToList().ForEach(group => {
@@ -112,6 +127,10 @@ namespace LocalTunnel.UI
             }
         }
 
+        #endregion
+
+        #region Common methods
+
         /// <summary>
         /// Creates the localtunnel.
         /// </summary>
@@ -122,9 +141,10 @@ namespace LocalTunnel.UI
         {
             stripStatus.Text = string.Format("Creating tunnel to port {0}...", port);
 
-            Tunnel tunnel = (File.Exists(sshKeyName)) ? (new Tunnel(port, sshKeyName)) : new Tunnel(port);
-
+            Tunnel tunnel = new Tunnel(port, sshKeyName);
+            tunnel.ServiceHost = serviceHost;
             tunnel.Execute();
+
             tunnelBindingSource.Add(tunnel);
 
             Clipboard.SetDataObject(string.Format("http://{0}/", tunnel.TunnelHost));
@@ -135,6 +155,10 @@ namespace LocalTunnel.UI
             // Update jump list
             CreateJumpList();
         }
+
+        #endregion
+
+        #region Events
 
         /// <summary>
         /// Creates a new tunnel and updates the data grid
@@ -174,7 +198,6 @@ namespace LocalTunnel.UI
             this.CreateJumpList();
             Program.HandleCmdLineArgs();
         }
-
 
         /// <summary>
         /// Sets the public key
@@ -298,8 +321,8 @@ namespace LocalTunnel.UI
            txtServiceHost.Visible = chkSpecify.Checked;
         }
 
-       
 
+        #endregion
 
     }
 }

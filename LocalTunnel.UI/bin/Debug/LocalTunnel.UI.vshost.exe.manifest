@@ -59,14 +59,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LocalTunnel.Library.dll" size="48128">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LocalTunnel.Library.dll" size="47616">
       <assemblyIdentity name="LocalTunnel.Library" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>w4yTpua/KHBTRQGPGtCRzHG/FEk=</dsig:DigestValue>
+        <dsig:DigestValue>aeXiA6z3qqMGCgNmwil/qr/U9lE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,7 +78,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>g0VddO1PLWNQBUDLaRLCo0G2pEc=</dsig:DigestValue>
+        <dsig:DigestValue>F/aUWJ1Ve6avxsHyJf/4zx3Si98=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -138,7 +138,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>zEuFjwBbUVLx8QiTZzlTZSZjbRI=</dsig:DigestValue>
+        <dsig:DigestValue>OX7ZjDuqnqMsOnVIRrWY4k+0CC0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

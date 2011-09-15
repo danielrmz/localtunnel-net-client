@@ -47,3 +47,4 @@ C:\localtunnel.NET\LocalTunnel.Console\bin\Debug\Tamir.SharpSSH.pdb
 C:\localtunnel.NET\LocalTunnel.Console\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\localtunnel.NET\LocalTunnel.Console\obj\x86\Debug\localtunnel.exe
 C:\localtunnel.NET\LocalTunnel.Console\obj\x86\Debug\localtunnel.pdb
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Debug\App_Data\Data.sdf

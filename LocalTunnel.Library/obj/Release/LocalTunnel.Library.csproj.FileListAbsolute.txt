@@ -15,3 +15,4 @@ C:\localtunnel.NET\LocalTunnel.Library\bin\Release\DiffieHellman.dll
 C:\localtunnel.NET\LocalTunnel.Library\obj\Release\ResolveAssemblyReference.cache
 C:\localtunnel.NET\LocalTunnel.Library\obj\Release\LocalTunnel.Library.dll
 C:\localtunnel.NET\LocalTunnel.Library\obj\Release\LocalTunnel.Library.pdb
+C:\Projects\Localtunnel\LocalTunnel.Library\bin\Release\App_Data\Data.sdf

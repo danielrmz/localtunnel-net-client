@@ -21,3 +21,4 @@ C:\localtunnel.NET\LocalTunnel.Console\bin\Release\LocalTunnel.Library.pdb
 C:\localtunnel.NET\LocalTunnel.Console\obj\x86\Release\ResolveAssemblyReference.cache
 C:\localtunnel.NET\LocalTunnel.Console\obj\x86\Release\localtunnel.exe
 C:\localtunnel.NET\LocalTunnel.Console\obj\x86\Release\localtunnel.pdb
+C:\Projects\Localtunnel\LocalTunnel.Console\bin\Release\App_Data\Data.sdf

@@ -66,7 +66,7 @@ namespace LocalTunnel
                         }
                         else if (args.Length == 1)
                         {
-                            (new Tunnel(localPort)).Execute();
+                            (new Tunnel(localPort, "key")).Execute();
                         }
                     }
                     catch (Exception e)

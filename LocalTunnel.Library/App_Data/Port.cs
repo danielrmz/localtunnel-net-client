@@ -46,7 +46,7 @@ namespace LocalTunnel.Library
 
             if (listUsed.Count > 0)
             {
-                found = listUsed.Where(port => port.Number == portNumber && port.ServiceHost.ToLower().Trim().Equals(serviceHost.ToLower().Trim())).First();
+                found = listUsed.Where(port => port.Number == portNumber && port.ServiceHost.ToLower().Trim().Equals(serviceHost.ToLower().Trim())).FirstOrDefault();
             }
 
             bool update = true;
