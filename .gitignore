@@ -12,3 +12,7 @@ build.force
 */Debug/*
 bin/*
 obj/*
+*/bin/Release/*
+*/obj/*/Release/*
+*/bin/Debug/*
+*/obj/*/Debug/*
