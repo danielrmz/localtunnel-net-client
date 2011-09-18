@@ -1,8 +1,0 @@
-C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\bin\Debug\Tamir.SharpSSH.dll
-C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\bin\Debug\Tamir.SharpSSH.pdb
-C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\ResolveAssemblyReference.cache
-C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSsh.jsch.examples.InputForm.resources
-C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\GenerateResource.read.1.tlog
-C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\GenerateResource.write.1.tlog
-C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSSH.dll
-C:\Projects\Localtunnel\packages\SharpSSH-1.1.1.13.src\SharpSSH\obj\Debug\Tamir.SharpSSH.pdb
