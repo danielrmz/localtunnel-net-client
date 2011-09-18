@@ -6,9 +6,11 @@ Install & Use
 Download or git clone a copy of the repo, after that there are two ways to use the service:
 
 * From the command line, go to LocalTunnel.Console/bin/Release/ and run:
-   `localtunnel.exe port [/path/to/publickey.pub]`
+   `localtunnel.exe port [/path/to/private.key]`
 
 * UI-based, open LocalTunnel.UI/bin/Debug/LocalTunnel.UI.exe and enter the required info.
+  - If you have a private key file, you can set it to use it, otherwise 
+    they will be generated automatically.
 
 
 UI Features

@@ -8,3 +8,7 @@ build.force
 *.exe
 *.manifest
 *.application
+*/Release/*
+*/Debug/*
+bin/*
+obj/*

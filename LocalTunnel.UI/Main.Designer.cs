@@ -38,13 +38,9 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grdData = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tunnelHostDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tunnelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.txtPort = new System.Windows.Forms.NumericUpDown();
@@ -55,13 +51,18 @@
             this.chkSpecify = new System.Windows.Forms.CheckBox();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.notifyMessage = new System.Windows.Forms.NotifyIcon(this.components);
+            this.statusTimer = new System.Windows.Forms.Timer(this.components);
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tunnelHostDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tunnelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tunnelBindingSource)).BeginInit();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tunnelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -87,19 +88,21 @@
             // publicKeyToolStripMenuItem
             // 
             this.publicKeyToolStripMenuItem.Name = "publicKeyToolStripMenuItem";
-            this.publicKeyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.publicKeyToolStripMenuItem.Text = "Set public key...";
+            this.publicKeyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
+            this.publicKeyToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.publicKeyToolStripMenuItem.Text = "Set private key...";
             this.publicKeyToolStripMenuItem.Click += new System.EventHandler(this.publicKeyToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(194, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -144,18 +147,10 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.grdData.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.grdData.RowHeadersVisible = false;
             this.grdData.Size = new System.Drawing.Size(415, 165);
             this.grdData.TabIndex = 1;
             this.grdData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdData_CellMouseUp);
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "LocalPort";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Port";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 80;
             // 
             // contextMenuStrip1
             // 
@@ -184,29 +179,6 @@
             this.stopToolStripMenuItem.Size = new System.Drawing.Size(100, 24);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
-            // 
-            // tunnelHostDataGridViewTextBoxColumn
-            // 
-            this.tunnelHostDataGridViewTextBoxColumn.ContextMenuStrip = this.contextMenuStrip1;
-            this.tunnelHostDataGridViewTextBoxColumn.DataPropertyName = "TunnelHost";
-            this.tunnelHostDataGridViewTextBoxColumn.HeaderText = "Host";
-            this.tunnelHostDataGridViewTextBoxColumn.Name = "tunnelHostDataGridViewTextBoxColumn";
-            this.tunnelHostDataGridViewTextBoxColumn.ReadOnly = true;
-            this.tunnelHostDataGridViewTextBoxColumn.Width = 180;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "Created";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Created";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 112;
-            // 
-            // tunnelBindingSource
-            // 
-            this.tunnelBindingSource.DataSource = typeof(LocalTunnel.Library.Tunnel);
-            this.tunnelBindingSource.Sort = "Created desc";
             // 
             // statusStrip1
             // 
@@ -301,7 +273,45 @@
             // 
             this.openFile.DefaultExt = "pub";
             this.openFile.FileName = "openFileDialog1";
-            this.openFile.Filter = "Key files|*.pub";
+            this.openFile.Filter = "Key files|*.*";
+            // 
+            // statusTimer
+            // 
+            this.statusTimer.Enabled = true;
+            this.statusTimer.Interval = 60000;
+            this.statusTimer.Tick += new System.EventHandler(this.statusTimer_Tick);
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "LocalPort";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Port";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 80;
+            // 
+            // tunnelHostDataGridViewTextBoxColumn
+            // 
+            this.tunnelHostDataGridViewTextBoxColumn.ContextMenuStrip = this.contextMenuStrip1;
+            this.tunnelHostDataGridViewTextBoxColumn.DataPropertyName = "TunnelHost";
+            this.tunnelHostDataGridViewTextBoxColumn.HeaderText = "Host";
+            this.tunnelHostDataGridViewTextBoxColumn.Name = "tunnelHostDataGridViewTextBoxColumn";
+            this.tunnelHostDataGridViewTextBoxColumn.ReadOnly = true;
+            this.tunnelHostDataGridViewTextBoxColumn.Width = 200;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.ContextMenuStrip = this.contextMenuStrip1;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Created";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Created";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 132;
+            // 
+            // tunnelBindingSource
+            // 
+            this.tunnelBindingSource.DataSource = typeof(LocalTunnel.Library.Tunnel);
+            this.tunnelBindingSource.Sort = "Created desc";
             // 
             // Main
             // 
@@ -324,12 +334,12 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tunnelBindingSource)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tunnelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -355,13 +365,14 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
         private System.Windows.Forms.BindingSource tunnelBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tunnelHostDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSpecify;
         private System.Windows.Forms.TextBox txtServiceHost;
         private System.Windows.Forms.NotifyIcon notifyMessage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tunnelHostDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.Timer statusTimer;
     }
 }
 

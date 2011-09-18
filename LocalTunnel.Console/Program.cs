@@ -41,7 +41,7 @@ namespace LocalTunnel
             if (args.Length != 2)
             {
                 Console.WriteLine("Usage: ");
-                Console.WriteLine("  localtunnel.exe port [/path/to/publickey.pub]");
+                Console.WriteLine("  localtunnel.exe port [/path/to/privatekey]");
                 Console.WriteLine("");
             }
             else
@@ -66,7 +66,7 @@ namespace LocalTunnel
                         }
                         else if (args.Length == 1)
                         {
-                            (new Tunnel(localPort, "key")).Execute();
+                            (new Tunnel(localPort)).Execute();
                         }
                     }
                     catch (Exception e)

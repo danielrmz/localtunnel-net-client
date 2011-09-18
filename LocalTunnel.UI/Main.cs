@@ -20,30 +20,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using LocalTunnel.Models;
-
 using System.IO;
+using System.Data;
+using System.Text;
+using System.Linq;
+using System.Drawing;
+using System.Reflection;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
 using LocalTunnel.Library;
+using LocalTunnel.Library.Models;
+using LocalTunnel.Library.Exceptions;
 
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
-using System.Reflection;
+using System.Net.NetworkInformation;
 
 namespace LocalTunnel.UI
 {
     public partial class Main : Form
     {
+        #region Properties and Constructors
+
         /// <summary>
         /// local filename of the public key file to be used
         /// </summary>
-        private static string _SSHKeyName = "key.pub";
+        private static string _SSHPrivateKeyName = "key";
 
         /// <summary>
         /// Taskbar manager 
@@ -57,6 +61,8 @@ namespace LocalTunnel.UI
         {
             InitializeComponent();
         }
+        
+        #endregion
 
         #region Jumplist methods
 
@@ -75,7 +81,7 @@ namespace LocalTunnel.UI
                     Port port = Port.GetUsedPorts().Where(portdb => portdb.Id == messagePortId).First();
                     if (port != null)
                     {
-                        CreateTunnel(port.Number, _SSHKeyName, port.ServiceHost);
+                        CreateTunnel(port.Number, _SSHPrivateKeyName, port.ServiceHost);
                         notifyMessage.BalloonTipText = string.Format("Port {0} tunneled correctly, URL copied to clipboard", port.Number);
                         notifyMessage.BalloonTipTitle = "localtunnel";
                         notifyMessage.Visible = true; 
@@ -141,8 +147,40 @@ namespace LocalTunnel.UI
         {
             stripStatus.Text = string.Format("Creating tunnel to port {0}...", port);
 
-            Tunnel tunnel = new Tunnel(port, sshKeyName);
+            Tunnel tunnel;
+
+            if (File.Exists(_SSHPrivateKeyName))
+            {
+                tunnel = new Tunnel(port, sshKeyName);
+            }
+            else
+            {
+                tunnel = new Tunnel(port);
+
+                // We save the private key only since the public key will be 
+                // obtained saved later by Tunnel.Library. We could however save it, doesn't really matter.
+                TextWriter tw = new StreamWriter(_SSHPrivateKeyName);
+                tw.WriteLine(tunnel.PrivateKey);
+                tw.Close();
+                
+            }
+            int idx = tunnelBindingSource.List.Count;
             tunnel.ServiceHost = serviceHost;
+            tunnel.OnSocketException = new Tunnel.EventSocketException((tun, message) => {
+                tun.StopTunnel(); 
+                
+                List<Tunnel> list = new List<Tunnel>();
+                foreach (Tunnel t in tunnelBindingSource.List)
+                {
+                    if (!t.TunnelHost.Equals(tun.TunnelHost))
+                    {
+                        list.Add(t);
+                    }
+                }
+                
+                SetBindingSourceDataSource(tunnelBindingSource, list);
+                MessageBox.Show(message, "Connection closed");
+            });
             tunnel.Execute();
 
             tunnelBindingSource.Add(tunnel);
@@ -154,6 +192,38 @@ namespace LocalTunnel.UI
 
             // Update jump list
             CreateJumpList();
+        }
+
+        public void SetBindingSourceDataSource(BindingSource bs, object newDataSource)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<BindingSource, object>(SetBindingSourceDataSource), new object[] { bs, newDataSource });
+            }
+            else
+            {
+                bs.DataSource = newDataSource;
+            }
+        }
+
+        public void HandleSocketException(Tunnel tunnel, string message)
+        {
+            MessageBox.Show(message); 
+            tunnel.StopTunnel(); 
+        }
+
+        /// <summary>
+        /// Closes all the current active tunnels and exits the application
+        /// </summary>
+        private void CloseAndExit()
+        {
+            foreach (Tunnel t in this.tunnelBindingSource.List)
+            {
+                t.StopTunnel();
+            }
+            this.grdData.Rows.Clear();
+
+            Application.Exit();
         }
 
         #endregion
@@ -179,7 +249,7 @@ namespace LocalTunnel.UI
                     serviceHost = txtServiceHost.Text.Trim();
                 }
 
-                CreateTunnel(port, _SSHKeyName, serviceHost);
+                CreateTunnel(port, _SSHPrivateKeyName, serviceHost);
             }
             catch (ServiceException se)
             {
@@ -207,39 +277,30 @@ namespace LocalTunnel.UI
         private void publicKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFile.ShowDialog();
-            string publicKey = openFile.FileName;
-            string privateKey = publicKey.Replace(".pub", "");
 
-            if (string.IsNullOrEmpty(publicKey))
+            string privateKey = openFile.FileName;
+
+            if (string.IsNullOrEmpty(privateKey))
             {
                 return;
             }
 
-            if (!File.Exists(privateKey))
-            {
-                MessageBox.Show("The private key file must be on the same directory as the public key, and should not have extension");
-                return;
-            }
+            // TODO: Validate private key is valid and let the user know right away.
 
-            File.Copy(publicKey, _SSHKeyName);
-            File.Copy(privateKey, _SSHKeyName.Replace(".pub",""));
+            // Save locally.
+            File.Copy(privateKey, _SSHPrivateKeyName, true);
 
             cmdTunnel.Enabled = true;
         }
 
         /// <summary>
-        /// Exits the app
+        /// Exits the app through the menu strip
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Tunnel t in this.tunnelBindingSource.List)
-            {
-                t.StopTunnel();
-            }
-
-            Application.Exit();
+            this.CloseAndExit();
         }
 
         /// <summary>
@@ -249,13 +310,7 @@ namespace LocalTunnel.UI
         /// <param name="e"></param>
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
-            foreach (Tunnel t in this.tunnelBindingSource.List)
-            {
-                t.StopTunnel();
-            }
-            this.grdData.Rows.Clear();
-
-            Application.Exit();
+            this.CloseAndExit();
         }
 
         /// <summary>
@@ -324,5 +379,29 @@ namespace LocalTunnel.UI
 
         #endregion
 
+        private void statusTimer_Tick(object sender, EventArgs e)
+        {
+            IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            TcpConnectionInformation[] tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
+            Dictionary<int, bool> ports = new Dictionary<int, bool>();
+            tcpConnInfoArray.ToList().ForEach(ip => ports[ip.LocalEndPoint.Port] = true);
+
+            List<Tunnel> newDataSource = new List<Tunnel>();
+            foreach (Tunnel t in tunnelBindingSource.List)
+            {
+                if (!t.IsStopped && (!ports.ContainsKey(t.LocalPort) || !t.IsConnected))
+                {
+                    t.StopTunnel(); 
+                    MessageBox.Show(string.Format("Port {0} is not available anymore, closing connection", t.LocalPort), "Connection closed");
+                    stripStatus.Text = string.Empty;
+                }
+                else
+                {
+                    newDataSource.Add(t);
+                }
+            }
+
+            SetBindingSourceDataSource(tunnelBindingSource, newDataSource);
+        }
     }
 }

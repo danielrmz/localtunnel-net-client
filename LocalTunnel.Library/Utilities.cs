@@ -6,13 +6,14 @@ using System.Net;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Web;
+using System.Xml.Linq;
 
 namespace LocalTunnel.Library
 {
     /// <summary>
     /// Provides several generic utilities for the app
     /// </summary>
-    internal static class Utilities
+    public static class Utilities
     {
 
         /// <summary>
@@ -49,6 +50,11 @@ namespace LocalTunnel.Library
                     string Response = loResponseStream.ReadToEnd();
 
                     loResponseStream.Close();
+
+                    
+                    if(typeof(T) == typeof(string)) {
+                        return (T)((object)Response);
+                    }
 
                     JavaScriptSerializer jSer = new JavaScriptSerializer();
                     return jSer.Deserialize<T>(Response);
@@ -97,5 +103,6 @@ namespace LocalTunnel.Library
 
             return paramterBuilder.ToString();
         }
+    
     }
 }

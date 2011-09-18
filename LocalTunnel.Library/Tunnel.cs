@@ -20,17 +20,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.IO;
-using LocalTunnel.Models;
-using System.Web.Script.Serialization;
-using Tamir.SharpSsh.jsch;
+using System.Text;
+using System.Collections.Generic;
 
 namespace LocalTunnel.Library
 {
+    using Renci.SshNet;
+    using Renci.SshNet.Common;
+    using Dex.Utilities;
+    using LocalTunnel.Library.Models;
+    using LocalTunnel.Library.Exceptions;
+    using System.Net.Sockets;
+
     /// <summary>
     /// Core class for Localtunnel service.
     /// Based on the Ruby client implementation.
@@ -70,14 +72,40 @@ namespace LocalTunnel.Library
         public DateTime Created { get; private set; }
 
         /// <summary>
-        /// Port to be exposed
+        /// Port to be exposed, between 1 and 65535
         /// </summary>
-        public int LocalPort { get; private set; }
+        public int LocalPort { 
+            get {
+                return _localPort;
+            }
+            private set
+            {
+                if (value <= 0 || value > 65535)
+                {
+                    throw new ServiceException("Invalid Port Number, must be between 1 and 65535");
+                }
+                _localPort = value;
+            }
+        }
+        private int _localPort;
 
         /// <summary>
         /// Public Key file path
         /// </summary>
-        public string PublicKeyFile { get; private set; }
+        public string PublicKeyFile { 
+            get {
+                return _publicKeyFile;
+            }
+            private set
+            {
+                if (!File.Exists(value))
+                {
+                    throw new FileNotFoundException("Public key file not found");
+                }
+                _publicKeyFile = value;
+            }
+        }
+        private string _publicKeyFile;
 
         /// <summary>
         /// Private key filepath
@@ -86,22 +114,11 @@ namespace LocalTunnel.Library
         {
             get
             {
-                if (string.IsNullOrEmpty(_privateKeyFile))
-                {
-                    string privatekey = this.PublicKeyFile.Replace(".pub", "");
-                    if (!File.Exists(privatekey)) {
-                        throw new FileNotFoundException("Private key file not found", privatekey);
-                    }
-                    return privatekey;
-                }
-                else
-                {
-                    return _privateKeyFile;
-                }
+                return _privateKeyFile;
             }
             private set
             {
-                if (!File.Exists(_privateKeyFile))
+                if (!File.Exists(value))
                 {
                     throw new FileNotFoundException("Private key file not found", _privateKeyFile);
                 }
@@ -109,67 +126,74 @@ namespace LocalTunnel.Library
                 _privateKeyFile = value;
             }
         }
+        private string _privateKeyFile;
 
         /// <summary>
         /// Private key filepath
         /// </summary>
-        private string _privateKeyFile;
-
-        /// <summary>
-        /// The contents of the private key
-        /// </summary>
-        private string _privateKey { 
-            get {
-                if (string.IsNullOrEmpty(PrivateKeyFile))
+        public string PrivateKey
+        {
+            get
+            {
+                if(!string.IsNullOrEmpty(this.PrivateKeyFile)) 
                 {
-                    if (_keyPair == null)
-                    {
-                        throw new Exception("SSH Keys not set");
-                    }
-                    MemoryStream o = new MemoryStream();
-                    _keyPair.writePrivateKey(o);
-                    return o.ToString();
+                    return File.ReadAllText(this.PrivateKeyFile);
                 }
-                else
+                if (!string.IsNullOrEmpty(_privateKey))
                 {
-                    return File.ReadAllText(PrivateKeyFile);
+                    return _privateKey;
                 }
-            } 
+                throw new ServiceException("Public key not set");
+            }
+            set
+            {
+                _privateKey = value;
+            }
         }
+        private string _privateKey;
 
         /// <summary>
         /// The contents of the public key
         /// </summary>
-        private string _publicKey { 
+        public string PublicKey { 
             get {
-                if (!string.IsNullOrEmpty(PublicKeyFile) && !File.Exists(PublicKeyFile))
+                if (!string.IsNullOrEmpty(this.PublicKeyFile))
                 {
-                    if (_keyPair == null)
-                    {
-                        throw new Exception("SSH Keys not set");
-                    }
-                    string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
-                    _keyPair.writePublicKey(PublicKeyFile, comment);
-                    _keyPair.writePrivateKey(PublicKeyFile.Replace(".pub", ""));
-
-                    return File.ReadAllText(PublicKeyFile);
+                    return File.ReadAllText(this.PublicKeyFile);
                 }
-                else
+                if (!string.IsNullOrEmpty(_publicKey))
                 {
-                    return File.ReadAllText(PublicKeyFile);
+                    return _publicKey;
                 }
-            } 
+                throw new ServiceException("Public key not set");
+            }
+            set
+            {
+                _publicKey = value;
+            }
         }
-        
+        private string _publicKey;
+
+        /// <summary>
+        /// Gets if the client is online or not.
+        /// </summary>
+        public bool IsConnected
+        {
+            get
+            {
+                return (this._client != null && this._client.IsConnected);
+            }
+        }
+
+        /// <summary>
+        /// Determines if the tunnel has been stopped or not.
+        /// </summary>
+        public bool IsStopped { get; private set; }
+
         /// <summary>
         /// Configuration obtained through a first request to the service.
         /// </summary>
         private ConfigurationResponse _config;
-
-        /// <summary>
-        /// SSH Session object
-        /// </summary>
-        private Session _session { get; set; }
 
         /// <summary>
         /// Service host
@@ -177,41 +201,54 @@ namespace LocalTunnel.Library
         private string _serviceHost = "open.localtunnel.com";
 
         /// <summary>
-        /// SSH Key pair generated for the tunnel
+        /// SSH.net client
         /// </summary>
-        private KeyPair _keyPair;
+        private SshClient _client;
 
         /// <summary>
-        /// SSH 
+        /// Forwarded port
         /// </summary>
-        private JSch _jsch = new JSch();
+        private ForwardedPortRemote _connectionPort;
+
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Simple constructor, key pairs are generated automatically.
+        /// Simple constructor, key pairs are generated automatically. 
+        /// If the app that uses the library requires to save the keys, 
+        /// they will be accessible through PublicKey/PrivateKey properties.
         /// </summary>
         /// <param name="localPort"></param>
-       // public Tunnel(int localPort)
-       // {
-        //    this.LocalPort = localPort;
-        //    _keyPair = KeyPair.genKeyPair(this._jsch, KeyPair.RSA, 2048);        
-        //}
+        public Tunnel(int localPort)
+        {
+            this.LocalPort = localPort; 
+ 
+            // Generate in-memory keys for use.
+            string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
+            Dex.Utilities.Cyrpto.RsaKeyPair key = Dex.Utilities.Cyrpto.GenerateRsaKeyPair(2048, comment);
+            
+            this.PublicKey  = key.PublicSSHKey;
+            this.PrivateKey = key.PrivateKeyAsPEM;
+        }
 
         /// <summary>
-        /// Constructor that assumes the private key file is removing *.pub from the public key filename.
-        /// Also if the file is not found a keypair is created on the specified route.
+        /// Constructor that gets the the private key file path,
+        /// internally it obtains the public key to set it to the server.
         /// </summary>
         /// <param name="localPort">Port to be forwarded</param>
         /// <param name="publicKeyFile">Key to add to LocalTunnel's service</param>
-        public Tunnel(int localPort, string publicKeyFile)
+        public Tunnel(int localPort, string privateKeyFile)
         {
             this.LocalPort = localPort;
-            this.PublicKeyFile = publicKeyFile;
+            this.PrivateKeyFile = privateKeyFile;
 
-            _keyPair = KeyPair.genKeyPair(this._jsch, KeyPair.RSA, 1024);  
+            // Obtain public from private and write it to the same folder.
+            string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
+            
+            Dex.Utilities.Cyrpto.WriteRsaKeyPair(this.PrivateKeyFile, comment);
+            this.PublicKeyFile = string.Format("{0}.pub", this.PrivateKeyFile);
         }
 
         /// <summary>
@@ -225,16 +262,6 @@ namespace LocalTunnel.Library
             this.LocalPort = localPort;
             this.PublicKeyFile  = publicKeyFile;
             this.PrivateKeyFile = privateKeyFile;
-
-            if (!File.Exists(publicKeyFile))
-            {
-                throw new ServiceException("The public key was not found");
-            }
-
-            if (!File.Exists(privateKeyFile))
-            {
-                throw new ServiceException("The private key was not found");
-            }
         }
 
         #endregion
@@ -258,8 +285,13 @@ namespace LocalTunnel.Library
         /// </summary>
         public void StopTunnel()
         {
-            _session.delPortForwardingR(_config.through_port);
-            _session.disconnect();
+            if (_client != null && _client.IsConnected)
+            {
+                _client.Disconnect();
+                _client.Dispose();
+                _client = null;
+                this.IsStopped = true;
+            }
         }
 
         /// <summary>
@@ -271,7 +303,7 @@ namespace LocalTunnel.Library
 
             try
             {
-                _config = Utilities.DoPost<ConfigurationResponse>(url, new Dictionary<string, string>() { { "key", _publicKey } });
+                _config = Web.DoPost<ConfigurationResponse>(url, new Dictionary<string, string>() { { "key", PublicKey } });
 
                 if (!string.IsNullOrEmpty(_config.error))
                 {
@@ -284,6 +316,8 @@ namespace LocalTunnel.Library
             }
 
             Created =  DateTime.Now;
+
+            // Record the usage of the port.
             Port.AddUsage(LocalPort, ServiceHost);
         }
 
@@ -294,27 +328,19 @@ namespace LocalTunnel.Library
         {
             try
             {
-                // Create a new JSch instance
-                JSch jsch = new JSch();
-                
-                // Use the private key to identify the user
-                jsch.addIdentity(PrivateKeyFile);
-                
-                // Create a new SSH session
-                _session = jsch.getSession(_config.user, _config.host);
+                _client = new SshClient(_config.host, _config.user, new PrivateKeyFile(new MemoryStream(Encoding.Default.GetBytes(PrivateKey))));
+                _client.Connect();
+                _client.KeepAliveInterval = new TimeSpan(0, 0, 30);
 
-                UserInfo ui = new MyUserInfo();
-                _session.setUserInfo(ui);
-                _session.setConfig(new System.Collections.Hashtable(){ {"StrictHostKeyChecking", "no"} });
+                if (!_client.IsConnected)
+                {
+                    throw new ServiceException("Can't start tunnel, try again.");
+                }
 
-                // Connect
-                _session.connect();
-
-                // Forward port
-                _session.setPortForwardingR(_config.through_port, "127.0.0.1", LocalPort);
-               
-                Console.WriteLine(string.Format("Setting up port {0} redirect to {1}", LocalPort, _config.host));
-
+                _connectionPort = _client.AddForwardedPort<ForwardedPortRemote>((uint)_config.through_port,  "127.0.0.1", (uint)LocalPort);
+                _connectionPort.Exception += new EventHandler<ExceptionEventArgs>(fw_Exception);
+                _connectionPort.RequestReceived += new EventHandler<PortForwardEventArgs>(port_RequestReceived);
+                _connectionPort.Start();
             }
             catch (Exception e)
             {
@@ -324,8 +350,38 @@ namespace LocalTunnel.Library
 
         }
 
-        #endregion
+        public delegate void EventSocketException(Tunnel t, string e);
 
+        public EventSocketException OnSocketException { get; set;}
+
+        /// <summary>
+        /// Calls delegate events if some exception occured with the tunnel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fw_Exception(object sender, ExceptionEventArgs e)
+        {
+            if (e.Exception is SocketException)
+            {
+                if (OnSocketException != null)
+                {
+                    OnSocketException(this, e.Exception.Message);
+                }
+            }
+            int j = 0;
+        }
+
+        /// <summary>
+        /// Handle some tunnel request.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void port_RequestReceived(object sender, PortForwardEventArgs e)
+        {
+            int i = 0;
+        }
+
+        #endregion
        
     }
 }
