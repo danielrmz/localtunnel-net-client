@@ -368,7 +368,7 @@ namespace LocalTunnel.Library
                     OnSocketException(this, e.Exception.Message);
                 }
             }
-            int j = 0;
+            
         }
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace LocalTunnel.Library
         /// <param name="e"></param>
         private void port_RequestReceived(object sender, PortForwardEventArgs e)
         {
-            int i = 0;
+            // We could keep a record of connections 
         }
 
         #endregion
