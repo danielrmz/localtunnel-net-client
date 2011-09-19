@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.SqlServerCe;
 using System.Data;
 using System.IO;
+using SQLite;
 
 namespace LocalTunnel.Library.Models
 {
@@ -18,26 +18,37 @@ namespace LocalTunnel.Library.Models
         /// <summary>
         /// Id of the port
         /// </summary>
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
         /// <summary>
         /// Port number
         /// </summary>
+        [Indexed]
         public int Number { get; set; }
+
+        /// <summary>
+        /// Hostname of the port.
+        /// </summary>
+        [Indexed]
+        public string Host { get; set; }
 
         /// <summary>
         /// Number of time the port has been tunneled
         /// </summary>
+        [Indexed]
         public int UsedTimes { get; set; }
 
         /// <summary>
         /// Last time used
         /// </summary>
+        [Indexed]
         public DateTime LastUsed { get; set; }
 
         /// <summary>
         /// Service host the user connected to
         /// </summary>
+        [Indexed]
         public string ServiceHost { get; set; }
 
         #endregion
@@ -48,45 +59,64 @@ namespace LocalTunnel.Library.Models
         /// Adds a +1 to the number of times the ort has been used.
         /// For statistic purposes.
         /// </summary>
+        /// <param name="localHost"></param>
         /// <param name="portNumber"></param>
         /// <param name="serviceHost"></param>
-        public static void AddUsage(int portNumber, string serviceHost) {
+        public static void AddUsage(string localHost, int portNumber, string serviceHost) {
             List<Port> listUsed = GetUsedPorts();
             Port found = null;
 
             if (listUsed.Count > 0)
             {
-                found = listUsed.Where(port => port.Number == portNumber && port.ServiceHost.ToLower().Trim().Equals(serviceHost.ToLower().Trim())).FirstOrDefault();
+                found = listUsed.Where(port => port.Number == portNumber && port.Host == localHost && port.ServiceHost.ToLower().Trim().Equals(serviceHost.ToLower().Trim())).FirstOrDefault();
             }
 
             bool update = true;
             if (found == null)
             {
                 update = false;
-                found = new Port() { ServiceHost = serviceHost, Number = portNumber, UsedTimes = 0 };
+                found = new Port() { ServiceHost = serviceHost, Host = localHost, Number = portNumber, UsedTimes = 0 };
             }
 
             found.LastUsed = DateTime.Now;
             found.UsedTimes = found.UsedTimes + 1;
 
-            string dbfile = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + "\\App_Data\\Data.sdf";
-            SqlCeConnection connection = new SqlCeConnection("datasource=" + dbfile);
-            connection.Open();
-
-            SqlCeCommand command = connection.CreateCommand();
-
-            if (update)
+            using (SQLiteConnection connection = GetConnection())
             {
-                command.CommandText = string.Format("UPDATE Port SET UsedTimes = '{0}', LastUsed = '{1}' WHERE Id = {2}", found.UsedTimes, found.LastUsed, found.Id);
-            }
-            else
-            {
-                command.CommandText = string.Format("INSERT INTO Port (Number, ServiceHost, UsedTimes, LastUsed) VALUES ('{0}', '{1}','{2}','{3}')", found.Number, found.ServiceHost, found.UsedTimes, found.LastUsed);            
+                if (update)
+                {
+                    connection.Update(found);
+                }
+                else
+                {
+                    connection.Insert(found);
+                }
             }
 
-            command.ExecuteNonQuery();
+        }
 
-            connection.Close();
+        /// <summary>
+        /// Gets the SQLite connection.
+        /// </summary>
+        /// <returns></returns>
+        private static SQLiteConnection GetConnection()
+        {
+            string dirName = string.Format("{0}\\App_Data", new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName);
+            string dataFile = string.Format("{0}\\data.db", dirName);
+            if (!Directory.Exists(dirName))
+            {
+                Directory.CreateDirectory(dirName);
+            }
+
+            if (!File.Exists(dataFile))
+            {
+                File.Create(dataFile).Close();
+            }
+
+            SQLiteConnection db = new SQLiteConnection(dataFile);
+            db.CreateTable<Port>();
+            
+            return db;
         }
 
         /// <summary>
@@ -95,28 +125,12 @@ namespace LocalTunnel.Library.Models
         /// <returns></returns>
         public static List<Port> GetUsedPorts()
         {
-            string dbfile = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + "\\App_Data\\Data.sdf";
-            SqlCeConnection connection = new SqlCeConnection("datasource=" + dbfile);
-
-            SqlCeDataAdapter adapter = new SqlCeDataAdapter("SELECT * FROM Port ORDER BY LastUsed", connection);
-            DataSet data = new DataSet();
-            adapter.Fill(data);
-            connection.Close();
-
-            List<Port> list = new List<Port>();
-            foreach (DataRow row in data.Tables[0].Rows)
+            using (SQLiteConnection connection = GetConnection())
             {
-                list.Add(new Port()
-                {
-                    Number = (int)row["Number"],
-                    LastUsed = (DateTime)row["LastUsed"],
-                    UsedTimes = (int)row["UsedTimes"],
-                    ServiceHost = (string)row["ServiceHost"],
-                    Id = (int)row["Id"]
-                });
+                return (from p in connection.Table<Port>()
+                        orderby p.LastUsed descending
+                        select p).ToList();
             }
-
-            return list;
         }
 
         #endregion

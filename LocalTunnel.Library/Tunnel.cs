@@ -90,6 +90,26 @@ namespace LocalTunnel.Library
         private int _localPort;
 
         /// <summary>
+        /// Specific localhost to listen to
+        /// </summary>
+        public string LocalHost
+        {
+            get
+            {
+                return _localHost;
+            }
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ServiceException("Invalid local hostname");
+                }
+                _localHost = value;
+            }
+        }
+        private string _localHost;
+
+        /// <summary>
         /// Public Key file path
         /// </summary>
         public string PublicKeyFile { 
@@ -220,27 +240,40 @@ namespace LocalTunnel.Library
         /// If the app that uses the library requires to save the keys, 
         /// they will be accessible through PublicKey/PrivateKey properties.
         /// </summary>
+        /// <param name="localHost"></param>
         /// <param name="localPort"></param>
-        public Tunnel(int localPort)
+        public Tunnel(string localHost, int localPort) 
         {
-            this.LocalPort = localPort; 
- 
+            this.LocalHost = localHost;
+            this.LocalPort = localPort;
+
             // Generate in-memory keys for use.
             string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
             Dex.Utilities.Cyrpto.RsaKeyPair key = Dex.Utilities.Cyrpto.GenerateRsaKeyPair(2048, comment);
-            
-            this.PublicKey  = key.PublicSSHKey;
+
+            this.PublicKey = key.PublicSSHKey;
             this.PrivateKey = key.PrivateKeyAsPEM;
+        }
+
+        /// <summary>
+        /// Constructor which defaults local listening host to 127.0.0.1
+        /// </summary>
+        /// <param name="localPort"></param>
+        public Tunnel(int localPort) 
+            : this("127.0.0.1", localPort)
+        {   
         }
 
         /// <summary>
         /// Constructor that gets the the private key file path,
         /// internally it obtains the public key to set it to the server.
         /// </summary>
+        /// <param name="localHost">Host to be forwarded</param>
         /// <param name="localPort">Port to be forwarded</param>
         /// <param name="publicKeyFile">Key to add to LocalTunnel's service</param>
-        public Tunnel(int localPort, string privateKeyFile)
+        public Tunnel(string localHost, int localPort, string privateKeyFile)
         {
+            this.LocalHost = localHost;
             this.LocalPort = localPort;
             this.PrivateKeyFile = privateKeyFile;
 
@@ -252,16 +285,41 @@ namespace LocalTunnel.Library
         }
 
         /// <summary>
+        /// Constructor which defaults the localhost to 127.0.0.1
+        /// It only accepts the private key file, the public key is generated
+        /// based on this one. 
+        /// </summary>
+        /// <param name="localPort"></param>
+        /// <param name="privateKeyFile"></param>
+        public Tunnel(int localPort, string privateKeyFile)
+            : this("127.0.0.1", localPort, privateKeyFile)
+        {
+        }
+
+        /// <summary>
         /// Constructor that specifies both keys.
         /// </summary>
         /// <param name="localPort">Port to be forwarded</param>
         /// <param name="publicKeyFile">Key to add to LocalTunnel's service</param>
         /// <param name="privateKeyFile">Private key used when creating the tunnel via ssh to the service.</param>
-        public Tunnel(int localPort, string publicKeyFile, string privateKeyFile)
+        public Tunnel(string localHost, int localPort, string publicKeyFile, string privateKeyFile)
         {
+            this.LocalHost = localHost;
             this.LocalPort = localPort;
             this.PublicKeyFile  = publicKeyFile;
             this.PrivateKeyFile = privateKeyFile;
+        }
+
+        /// <summary>
+        /// Constructor which default the local host to 127.0.0.1, 
+        /// Accepts both keys to be used.
+        /// </summary>
+        /// <param name="localPort"></param>
+        /// <param name="publicKeyFile"></param>
+        /// <param name="privateKeyFile"></param>
+        public Tunnel(int localPort, string publicKeyFile, string privateKeyFile)
+            : this("127.0.0.1", localPort, publicKeyFile, privateKeyFile)
+        {   
         }
 
         #endregion
@@ -295,6 +353,17 @@ namespace LocalTunnel.Library
         }
 
         /// <summary>
+        /// Reopens tunnel
+        /// </summary>
+        public void ReOpenTunnel()
+        {
+            if (this.IsStopped && !this.IsConnected)
+            {
+                this.StartTunnel();
+            }
+        }
+
+        /// <summary>
         /// Registers a tunnel, meaning creating a request to localtunnel to open up a subdomain and port to bridge to.
         /// </summary>
         private void RegisterTunnel()
@@ -318,7 +387,7 @@ namespace LocalTunnel.Library
             Created =  DateTime.Now;
 
             // Record the usage of the port.
-            Port.AddUsage(LocalPort, ServiceHost);
+            Port.AddUsage(LocalHost, LocalPort, ServiceHost);
         }
 
         /// <summary>
@@ -330,14 +399,16 @@ namespace LocalTunnel.Library
             {
                 _client = new SshClient(_config.host, _config.user, new PrivateKeyFile(new MemoryStream(Encoding.Default.GetBytes(PrivateKey))));
                 _client.Connect();
-                _client.KeepAliveInterval = new TimeSpan(0, 0, 30);
-
+                _client.KeepAliveInterval = new TimeSpan(0, 0, 5);
+                
                 if (!_client.IsConnected)
                 {
                     throw new ServiceException("Can't start tunnel, try again.");
                 }
 
-                _connectionPort = _client.AddForwardedPort<ForwardedPortRemote>((uint)_config.through_port,  "127.0.0.1", (uint)LocalPort);
+                string connectHost = string.IsNullOrEmpty(this.LocalHost) ? "127.0.0.1" : this.LocalHost;
+
+                _connectionPort = _client.AddForwardedPort<ForwardedPortRemote>((uint)_config.through_port,  connectHost, (uint)LocalPort);
                 _connectionPort.Exception += new EventHandler<ExceptionEventArgs>(fw_Exception);
                 _connectionPort.RequestReceived += new EventHandler<PortForwardEventArgs>(port_RequestReceived);
                 _connectionPort.Start();
@@ -365,6 +436,7 @@ namespace LocalTunnel.Library
             {
                 if (OnSocketException != null)
                 {
+                    this.IsStopped = true;
                     OnSocketException(this, e.Exception.Message);
                 }
             }
@@ -379,6 +451,7 @@ namespace LocalTunnel.Library
         private void port_RequestReceived(object sender, PortForwardEventArgs e)
         {
             // We could keep a record of connections 
+            int i = 0;
         }
 
         #endregion

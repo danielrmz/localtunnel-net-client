@@ -81,7 +81,7 @@ namespace LocalTunnel.UI
                     Port port = Port.GetUsedPorts().Where(portdb => portdb.Id == messagePortId).First();
                     if (port != null)
                     {
-                        CreateTunnel(port.Number, _SSHPrivateKeyName, port.ServiceHost);
+                        CreateTunnel(port.Host, port.Number, _SSHPrivateKeyName, port.ServiceHost);
                         notifyMessage.BalloonTipText = string.Format("Port {0} tunneled correctly, URL copied to clipboard", port.Number);
                         notifyMessage.BalloonTipTitle = "localtunnel";
                         notifyMessage.Visible = true; 
@@ -108,6 +108,7 @@ namespace LocalTunnel.UI
             taskBarManager = TaskbarManager.Instance;
             if (TaskbarManager.IsPlatformSupported)
             {
+                string currentDir = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName;
 
                 JumpList list = JumpList.CreateJumpList();
                 
@@ -118,9 +119,10 @@ namespace LocalTunnel.UI
                     group.OrderByDescending(p => p.UsedTimes).ToList().ForEach(port =>
                     {
                         JumpListLink userActionLink = new JumpListLink(Assembly.GetEntryAssembly().Location,
-                                                        port.Number.ToString())
+                                                        string.Format("{0} @ {1}", port.Number.ToString(), port.Host))
                                                         {
-                                                            Arguments = port.Id.ToString()
+                                                            Arguments = port.Id.ToString(),
+                                                            IconReference = new IconReference(currentDir + "\\Resources\\tunnel-jump.ico,0")
                                                         };
                         userActionsCategory.AddJumpListItems(userActionLink);
                     });
@@ -143,7 +145,7 @@ namespace LocalTunnel.UI
         /// <param name="port"></param>
         /// <param name="sshKeyName"></param>
         /// <param name="serviceHost"></param>
-        private void CreateTunnel(int port, string sshKeyName, string serviceHost)
+        private void CreateTunnel(string host, int port, string sshKeyName, string serviceHost)
         {
             stripStatus.Text = string.Format("Creating tunnel to port {0}...", port);
 
@@ -151,11 +153,11 @@ namespace LocalTunnel.UI
 
             if (File.Exists(_SSHPrivateKeyName))
             {
-                tunnel = new Tunnel(port, sshKeyName);
+                tunnel = new Tunnel(host, port, sshKeyName);
             }
             else
             {
-                tunnel = new Tunnel(port);
+                tunnel = new Tunnel(host, port);
 
                 // We save the private key only since the public key will be 
                 // obtained saved later by Tunnel.Library. We could however save it, doesn't really matter.
@@ -181,6 +183,7 @@ namespace LocalTunnel.UI
                 SetBindingSourceDataSource(tunnelBindingSource, list);
                 MessageBox.Show(message, "Connection closed");
             });
+
             tunnel.Execute();
 
             tunnelBindingSource.Add(tunnel);
@@ -194,6 +197,12 @@ namespace LocalTunnel.UI
             CreateJumpList();
         }
 
+        /// <summary>
+        /// Sets the new binding source, used when invoked from
+        /// another thread
+        /// </summary>
+        /// <param name="bs"></param>
+        /// <param name="newDataSource"></param>
         public void SetBindingSourceDataSource(BindingSource bs, object newDataSource)
         {
             if (InvokeRequired)
@@ -204,12 +213,6 @@ namespace LocalTunnel.UI
             {
                 bs.DataSource = newDataSource;
             }
-        }
-
-        public void HandleSocketException(Tunnel tunnel, string message)
-        {
-            MessageBox.Show(message); 
-            tunnel.StopTunnel(); 
         }
 
         /// <summary>
@@ -243,13 +246,19 @@ namespace LocalTunnel.UI
             {
                 int port = int.Parse(txtPort.Value.ToString());
                 string serviceHost = "open.localtunnel.com";
+                string host = "127.0.0.1";
 
-                if (chkSpecify.Checked && !string.IsNullOrEmpty(txtServiceHost.Text.Trim()))
+                if (!string.IsNullOrEmpty(txtServiceHost.Text.Trim()))
                 {
                     serviceHost = txtServiceHost.Text.Trim();
                 }
 
-                CreateTunnel(port, _SSHPrivateKeyName, serviceHost);
+                if (!string.IsNullOrEmpty(txtLocalHost.Text.Trim()))
+                {
+                    host = txtLocalHost.Text.Trim();
+                }
+
+                CreateTunnel(host, port, _SSHPrivateKeyName, serviceHost);
             }
             catch (ServiceException se)
             {
@@ -367,18 +376,10 @@ namespace LocalTunnel.UI
         }
 
         /// <summary>
-        /// Toggles the service host textbox
+        /// Checks every minute for non-responding or closed tunnels.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void chkSpecify_CheckedChanged(object sender, EventArgs e)
-        {
-           txtServiceHost.Visible = chkSpecify.Checked;
-        }
-
-
-        #endregion
-
         private void statusTimer_Tick(object sender, EventArgs e)
         {
             IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
@@ -391,17 +392,36 @@ namespace LocalTunnel.UI
             {
                 if (!t.IsStopped && (!ports.ContainsKey(t.LocalPort) || !t.IsConnected))
                 {
-                    t.StopTunnel(); 
-                    MessageBox.Show(string.Format("Port {0} is not available anymore, closing connection", t.LocalPort), "Connection closed");
+                    t.StopTunnel();
+                    t.ReOpenTunnel();
+                    //MessageBox.Show(string.Format("Port {0} is not available anymore, closing connection", t.LocalPort), "Connection closed");
                     stripStatus.Text = string.Empty;
                 }
-                else
-                {
-                    newDataSource.Add(t);
-                }
+
+                newDataSource.Add(t);
             }
 
             SetBindingSourceDataSource(tunnelBindingSource, newDataSource);
         }
+
+        /// <summary>
+        /// Opens the advanced tunnel setup panel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lnkAdvanced_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (pnlAdvanced.Visible == false)
+            {
+                pnlAdvanced.Visible = true;
+                this.tableLayoutPanel1.RowStyles[0].Height = 33; 
+            } else {
+                pnlAdvanced.Visible = false;
+                this.tableLayoutPanel1.RowStyles[0].Height = 18; 
+            }
+        }
+
+        #endregion
+
     }
 }

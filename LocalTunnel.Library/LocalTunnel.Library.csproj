@@ -32,7 +32,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\4.0\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,7 +41,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\4.0\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,7 +58,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -68,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Models\Port.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
+    <Compile Include="App_Data\SQLite.cs" />
     <Compile Include="Tunnel.cs" />
     <Compile Include="Models\ConfigurationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,11 +103,6 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Data.sdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\packages\Dex.Utilities\Dex.Utilities.csproj">
       <Project>{3FD255E2-1FE4-4231-A322-8E63CBF9F23C}</Project>
       <Name>Dex.Utilities</Name>
@@ -118,6 +113,11 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(SolutionDir)packages\OpenSSL\libeay32.dll $(TargetDir)
+copy $(SolutionDir)packages\OpenSSL\ssleay32.dll $(TargetDir)
+copy $(SolutionDir)packages\SQLite\sqlite3.dll $(TargetDir)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

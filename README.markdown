@@ -3,12 +3,19 @@ localtunnel for windows
 
 Install & Use
 -------------
-Download or git clone a copy of the repo, after that there are two ways to use the service:
 
-* From the command line, go to LocalTunnel.Console/bin/Release/ and run:
-   `localtunnel.exe port [/path/to/private.key]`
+Download the installer msi from the Downloads section, and run the Setup Wizard. 
+This will install LocalTunnel.NET UI & CLI in your file system, and create a 
+shortcut in your start menu. 
 
-* UI-based, open LocalTunnel.UI/bin/Debug/LocalTunnel.UI.exe and enter the required info.
+If you would like to run the latest build, you could download or git clone the latest 
+version and then:
+
+* From the command line, go to LocalTunnel.Console/bin/4.0/Release/ and run:
+   `localtunnel.exe host[:port] [/path/to/private.key]`
+or `localtunnel.exe [host:]port [/path/to/private.key]` 
+
+* UI-based, open LocalTunnel.UI/bin/4.0/Release/LocalTunnel.UI.exe and enter the required info.
 
 
 UI Features
@@ -16,7 +23,12 @@ UI Features
  * Custom service host setting
  * Win7 Jumplists for quick tunneling
  * Public key autogeneration
+ * Specify a different host address than 127.0.0.1
 
+Known Bugs
+----------
+ * It sometimes disconnects from the server, but I believe its a timeout from it, although
+   it is sending keep alives every 5 seconds. 
 
 Authors
 -------
