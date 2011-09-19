@@ -1,6 +1,9 @@
 localtunnel for windows
 =======================
 
+Expose instantly your local webserver to the internet! 
+See [main project](https://github.com/progrium/localtunnel) for more info.
+
 Install & Use
 -------------
 
