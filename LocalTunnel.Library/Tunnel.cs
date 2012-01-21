@@ -381,7 +381,7 @@ namespace LocalTunnel.Library
             }
             catch (ArgumentException ae)
             {
-                throw new ServiceException("Invalid server response");
+                throw new ServiceException("Invalid server response: " + ae.Message);
             }
 
             Created =  DateTime.Now;
@@ -451,7 +451,6 @@ namespace LocalTunnel.Library
         private void port_RequestReceived(object sender, PortForwardEventArgs e)
         {
             // We could keep a record of connections 
-            int i = 0;
         }
 
         #endregion

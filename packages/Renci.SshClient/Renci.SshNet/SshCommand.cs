@@ -243,9 +243,9 @@ namespace Renci.SshNet
             return this.EndExecute(this.BeginExecute(null, null));
         }
 
-        /// <summary>
-        /// Cancels command execution in asynchronous scenarios. CURRENTLY NOT IMPLEMENTED.
-        /// </summary>
+        // / < summary>
+        // / Cancels command execution in asynchronous scenarios. CURRENTLY NOT IMPLEMENTED.
+        // / </summary>
         //public void Cancel()
         //{
         //    if (this._channel != null && this._channel.IsOpen)

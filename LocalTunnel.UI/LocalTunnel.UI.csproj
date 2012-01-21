@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\4.0\Debug\</OutputPath>
+    <OutputPath>bin\4.0\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>bin\4.0\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -220,8 +220,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)packages\OpenSSL\libeay32.dll $(TargetDir)
-copy $(SolutionDir)packages\OpenSSL\ssleay32.dll $(TargetDir)
+    <PostBuildEvent>copy $(SolutionDir)packages\OpenSSL\libeay32$(PlatformName).dll $(TargetDir)libeay32.dll
+copy $(SolutionDir)packages\OpenSSL\ssleay32$(PlatformName).dll $(TargetDir)ssleay32.dll
 copy $(SolutionDir)packages\SQLite\sqlite3$(PlatformName).dll $(TargetDir)sqlite3.dll</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -109,7 +109,7 @@ namespace LocalTunnel
                         Console.WriteLine("[Press any key to terminate tunnel]");
                         Console.ReadKey();
                     }
-                    catch (Exception e)
+                    catch 
                     {
                         Console.WriteLine("Oops! there was an error while connecting. \nPlease check your port, and key files and try again.");
                     }

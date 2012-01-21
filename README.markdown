@@ -28,6 +28,13 @@ UI Features
  * Public key autogeneration
  * Specify a different host address than 127.0.0.1
 
+Changelog
+---------
+
+1.0.2 - Added support for 64-bit systems (issue #6)
+        Removed temporarily installation packages. 
+
+
 Known Bugs
 ----------
  * It sometimes disconnects from the server, but I believe its a timeout from it, although
