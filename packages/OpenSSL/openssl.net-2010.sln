@@ -1,0 +1,44 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project Files", "Project Files", "{0B96FB71-2BB0-48F8-B3E0-E3848A4F9E87}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGES = CHANGES
+		COPYING = COPYING
+		INSTALL = INSTALL
+		LICENSE = LICENSE
+		README = README
+		release.cmd = release.cmd
+		TODO = TODO
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-2010", "test\test-2010.csproj", "{E60945CE-E10D-452B-9631-E34AE55DCED8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedOpenSsl-2010", "ManagedOpenSsl\ManagedOpenSsl-2010.csproj", "{73DCC218-655B-485F-8EAC-0CE5F2F7343D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cli-2010", "cli\cli-2010.csproj", "{F50628FD-5AE4-4A16-A062-4687B2EAD7EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-2010", "test\UnitTests\UnitTests-2010.csproj", "{779FA0D7-D7CB-4408-A94D-B5718F118894}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E60945CE-E10D-452B-9631-E34AE55DCED8}.Debug|x64.ActiveCfg = Debug|x64
+		{E60945CE-E10D-452B-9631-E34AE55DCED8}.Release|x64.ActiveCfg = Release|x64
+		{73DCC218-655B-485F-8EAC-0CE5F2F7343D}.Debug|x64.ActiveCfg = Debug|x64
+		{73DCC218-655B-485F-8EAC-0CE5F2F7343D}.Debug|x64.Build.0 = Debug|x64
+		{73DCC218-655B-485F-8EAC-0CE5F2F7343D}.Release|x64.ActiveCfg = Release|Any CPU
+		{73DCC218-655B-485F-8EAC-0CE5F2F7343D}.Release|x64.Build.0 = Release|Any CPU
+		{F50628FD-5AE4-4A16-A062-4687B2EAD7EE}.Debug|x64.ActiveCfg = Debug|x64
+		{F50628FD-5AE4-4A16-A062-4687B2EAD7EE}.Debug|x64.Build.0 = Debug|x64
+		{F50628FD-5AE4-4A16-A062-4687B2EAD7EE}.Release|x64.ActiveCfg = Release|x64
+		{F50628FD-5AE4-4A16-A062-4687B2EAD7EE}.Release|x64.Build.0 = Release|x64
+		{779FA0D7-D7CB-4408-A94D-B5718F118894}.Debug|x64.ActiveCfg = Debug|x64
+		{779FA0D7-D7CB-4408-A94D-B5718F118894}.Release|x64.ActiveCfg = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
