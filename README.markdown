@@ -33,7 +33,8 @@ Changelog
 
 1.0.2 - Added support for 64-bit systems (issue #6)
         Removed temporarily installation packages. 
-
+1.0.3 - Refactored 64 bit code to avoid using build events.
+        Readded installation packages.
 
 Known Bugs
 ----------

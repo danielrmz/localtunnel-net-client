@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installers", "Installers", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedOpenSsl-2010", "packages\OpenSSL\ManagedOpenSsl\ManagedOpenSsl-2010.csproj", "{73DCC218-655B-485F-8EAC-0CE5F2F7343D}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LocalTunnel.Installer.x64", "Installers\LocalTunnel.Installer.x64\LocalTunnel.Installer.x64.vdproj", "{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LocalTunnel.Installer.x86", "Installers\LocalTunnel.Installer.x86\LocalTunnel.Installer.x86.vdproj", "{72F25624-4307-4F3F-9540-D3DEECDBF1A9}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Localtunnel.vsmdi
@@ -142,6 +146,27 @@ Global
 		{73DCC218-655B-485F-8EAC-0CE5F2F7343D}.Release|x64.ActiveCfg = Release|x64
 		{73DCC218-655B-485F-8EAC-0CE5F2F7343D}.Release|x64.Build.0 = Release|x64
 		{73DCC218-655B-485F-8EAC-0CE5F2F7343D}.Release|x86.ActiveCfg = Release|x86
+		{73DCC218-655B-485F-8EAC-0CE5F2F7343D}.Release|x86.Build.0 = Release|x86
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.Debug|Any CPU.ActiveCfg = Debug
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.Debug|x64.ActiveCfg = Debug
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.Debug|x86.ActiveCfg = Debug
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.DebugNoTimeout|Any CPU.ActiveCfg = Debug
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.DebugNoTimeout|x64.ActiveCfg = Debug
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.DebugNoTimeout|x86.ActiveCfg = Debug
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.Release|Any CPU.ActiveCfg = Release
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.Release|x64.ActiveCfg = Release
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.Release|x64.Build.0 = Release
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA}.Release|x86.ActiveCfg = Release
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.Debug|Any CPU.ActiveCfg = Debug
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.Debug|x64.ActiveCfg = Debug
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.Debug|x86.ActiveCfg = Debug
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.DebugNoTimeout|Any CPU.ActiveCfg = Debug
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.DebugNoTimeout|x64.ActiveCfg = Debug
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.DebugNoTimeout|x86.ActiveCfg = Debug
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.Release|Any CPU.ActiveCfg = Release
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.Release|x64.ActiveCfg = Release
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.Release|x86.ActiveCfg = Release
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,5 +179,7 @@ Global
 		{2F5F8C90-0BD1-424F-997C-7BC6280919D1} = {99835E0A-3CA5-42AD-A2B7-43FB0C69A174}
 		{3FD255E2-1FE4-4231-A322-8E63CBF9F23C} = {99835E0A-3CA5-42AD-A2B7-43FB0C69A174}
 		{73DCC218-655B-485F-8EAC-0CE5F2F7343D} = {99835E0A-3CA5-42AD-A2B7-43FB0C69A174}
+		{D11A418C-80EB-4354-A4D4-A2A3E5EE8BBA} = {F9FA80AE-F736-45F9-8960-E0DAFEAE9090}
+		{72F25624-4307-4F3F-9540-D3DEECDBF1A9} = {F9FA80AE-F736-45F9-8960-E0DAFEAE9090}
 	EndGlobalSection
 EndGlobal
