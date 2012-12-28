@@ -30,16 +30,16 @@ UI Features
 
 Changelog
 ---------
-
-- 1.0.2 - Added support for 64-bit systems (issue #6)
-        Removed temporarily installation packages. 
+- 1.0.4 - Removed dependency with System.Web by using JSON.net deserializer.
 - 1.0.3 - Refactored 64 bit code to avoid using build events.
         Readded installation packages.
+- 1.0.2 - Added support for 64-bit systems (issue #6)
+        Removed temporarily installation packages. 
+
 
 Known Bugs
 ----------
- * It sometimes disconnects from the server, but I believe its a timeout from it, although
-   it is sending keep alives every 5 seconds. 
+ * It sometimes disconnects from the server, but could be a timeout from it. This happens even though we send a keep alive packet every 5 seconds.
 
 Authors
 -------
