@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Net;
-using System.Web;
-using System.Web.Script.Serialization;
+using Newtonsoft.Json; 
 
 namespace Dex.Utilities
 {
@@ -52,8 +51,7 @@ namespace Dex.Utilities
                         return (T)((object)Response);
                     }
 
-                    JavaScriptSerializer jSer = new JavaScriptSerializer();
-                    return jSer.Deserialize<T>(Response);
+                    return JsonConvert.DeserializeObject<T>(Response);
                 }
             }
         }
@@ -87,7 +85,7 @@ namespace Dex.Utilities
 
             foreach (var value in values)
             {
-                paramterBuilder.AppendFormat("{0}={1}", value.Key, HttpUtility.UrlEncode(value.Value.ToString()));
+                paramterBuilder.AppendFormat("{0}={1}", value.Key, Uri.EscapeDataString(value.Value.ToString()));
 
                 if (counter != values.Count - 1)
                 {
