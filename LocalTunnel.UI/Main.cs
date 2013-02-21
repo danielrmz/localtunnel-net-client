@@ -331,13 +331,19 @@ namespace LocalTunnel.UI
         {
             string tunnelName;
             int tunnelPort;
+            
+            if (this.grdData.Rows[cellEventIndex] == null)
+            {
+                return;
+            }
+
             Tunnel tunnel =  (Tunnel)this.grdData.Rows[cellEventIndex].DataBoundItem;
 
             tunnelName = tunnel.TunnelHost;
             tunnelPort = tunnel.LocalPort;
 
             tunnel.StopTunnel();
-            this.tunnelBindingSource.List.RemoveAt(cellEventIndex);
+            this.grdData.Rows.RemoveAt(cellEventIndex);
 
             stripStatus.Text = string.Format("{0} tunnel to port {1}  was deleted.", tunnelName, tunnelPort);
 

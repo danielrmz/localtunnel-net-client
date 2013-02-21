@@ -15,6 +15,18 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_049972279AB6EF6BE6892301DC77B204"
+        "OwnerKey" = "8:_5E3A7FF56348C3B004224A022C88A84C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_049972279AB6EF6BE6892301DC77B204"
+        "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -33,24 +45,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_467862F4C8295A3FC4143D6E49BAD5D7"
-        "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_467862F4C8295A3FC4143D6E49BAD5D7"
-        "OwnerKey" = "8:_D3D5C734446047CF89F4F2606F7B5FDC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_467862F4C8295A3FC4143D6E49BAD5D7"
-        "OwnerKey" = "8:_6D15B99950C590BA94397CB05030F539"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4AB18DA8B1554B46AD052A344FAC3AF6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -63,7 +57,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5D7D4BC3F27452ACA1BB83820BD645E5"
+        "MsmKey" = "8:_5E3A7FF56348C3B004224A022C88A84C"
         "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -75,14 +69,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6D15B99950C590BA94397CB05030F539"
-        "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6D15B99950C590BA94397CB05030F539"
-        "OwnerKey" = "8:_5D7D4BC3F27452ACA1BB83820BD645E5"
+        "MsmKey" = "8:_726C79AB3CBAFC563A92378FA773AA33"
+        "OwnerKey" = "8:_D3D5C734446047CF89F4F2606F7B5FDC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -93,14 +81,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B57D9E2DDC7464DB45240D47101BFF92"
-        "OwnerKey" = "8:_5D7D4BC3F27452ACA1BB83820BD645E5"
+        "MsmKey" = "8:_8F455DDA7972ABBF5E0A903D0BA3458C"
+        "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B57D9E2DDC7464DB45240D47101BFF92"
-        "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
+        "MsmKey" = "8:_8F455DDA7972ABBF5E0A903D0BA3458C"
+        "OwnerKey" = "8:_5E3A7FF56348C3B004224A022C88A84C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -111,26 +99,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D74FA6987EA288AB42411E00816B5AD5"
-        "OwnerKey" = "8:_F6731CE854064E8DBA6DECE1698003A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E335A8624E05A2545338D0DFD44DA17C"
-        "OwnerKey" = "8:_6D15B99950C590BA94397CB05030F539"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E335A8624E05A2545338D0DFD44DA17C"
+        "MsmKey" = "8:_D6D2C8ADA9402AD5FE2163AD49D323AF"
         "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_EF886DF2FF9EFCDAA4DB878C8883F7B9"
+        "MsmKey" = "8:_D6D2C8ADA9402AD5FE2163AD49D323AF"
         "OwnerKey" = "8:_D3D5C734446047CF89F4F2606F7B5FDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D6D2C8ADA9402AD5FE2163AD49D323AF"
+        "OwnerKey" = "8:_8F455DDA7972ABBF5E0A903D0BA3458C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EE8B7377ECCCF9EF0DBAF8FF9000635E"
+        "OwnerKey" = "8:_F6731CE854064E8DBA6DECE1698003A2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -147,8 +135,56 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F9C8EAAD566F68DECBA8E9351C94E4B6"
+        "OwnerKey" = "8:_8F455DDA7972ABBF5E0A903D0BA3458C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F9C8EAAD566F68DECBA8E9351C94E4B6"
+        "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3C10B6CEC8CD4A0494D549F8C0A084BF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F6731CE854064E8DBA6DECE1698003A2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EE8B7377ECCCF9EF0DBAF8FF9000635E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_13467C5ACD8A411C824A49895DDA72E9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FDA5C877F7A846E78BF48FBDA9651445"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D3D5C734446047CF89F4F2606F7B5FDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_726C79AB3CBAFC563A92378FA773AA33"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -166,73 +202,37 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D3D5C734446047CF89F4F2606F7B5FDC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EF886DF2FF9EFCDAA4DB878C8883F7B9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0FDCC50C6E6E4FA4B6A498457EC88DB7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5D7D4BC3F27452ACA1BB83820BD645E5"
+        "OwnerKey" = "8:_5E3A7FF56348C3B004224A022C88A84C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B57D9E2DDC7464DB45240D47101BFF92"
+        "OwnerKey" = "8:_049972279AB6EF6BE6892301DC77B204"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6D15B99950C590BA94397CB05030F539"
+        "OwnerKey" = "8:_8F455DDA7972ABBF5E0A903D0BA3458C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E335A8624E05A2545338D0DFD44DA17C"
+        "OwnerKey" = "8:_F9C8EAAD566F68DECBA8E9351C94E4B6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_467862F4C8295A3FC4143D6E49BAD5D7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_13467C5ACD8A411C824A49895DDA72E9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F6731CE854064E8DBA6DECE1698003A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D74FA6987EA288AB42411E00816B5AD5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FDA5C877F7A846E78BF48FBDA9651445"
+        "OwnerKey" = "8:_D6D2C8ADA9402AD5FE2163AD49D323AF"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -253,13 +253,21 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\LocalTunnel.Installer-1.0.3.x86.msi"
+        "OutputFilename" = "8:Release\\LocalTunnel.Installer-1.0.4.x86.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -319,6 +327,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_049972279AB6EF6BE6892301DC77B204"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Renci.SshNet, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_049972279AB6EF6BE6892301DC77B204"
+                    {
+                    "Name" = "8:Renci.SshNet.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Renci.SshNet.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_13467C5ACD8A411C824A49895DDA72E9"
             {
             "AssemblyRegister" = "3:1"
@@ -370,37 +409,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_467862F4C8295A3FC4143D6E49BAD5D7"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942"
-                "ScatterAssemblies"
-                {
-                    "_467862F4C8295A3FC4143D6E49BAD5D7"
-                    {
-                    "Name" = "8:BouncyCastle.Crypto.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:BouncyCastle.Crypto.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5892AC20AB5C4251B8475BDF356D442C"
             {
             "SourcePath" = "8:..\\..\\packages\\SQLite\\sqlite3x86.dll"
@@ -421,14 +429,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5D7D4BC3F27452ACA1BB83820BD645E5"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5E3A7FF56348C3B004224A022C88A84C"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:LocalTunnel.Library, Version=1.0.3.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_5D7D4BC3F27452ACA1BB83820BD645E5"
+                    "_5E3A7FF56348C3B004224A022C88A84C"
                     {
                     "Name" = "8:LocalTunnel.Library.dll"
                     "Attributes" = "3:512"
@@ -452,20 +460,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6D15B99950C590BA94397CB05030F539"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_726C79AB3CBAFC563A92378FA773AA33"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Dex.Utilities, Version=1.0.2.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:ManagedOpenSsl, Version=0.4.4.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_6D15B99950C590BA94397CB05030F539"
+                    "_726C79AB3CBAFC563A92378FA773AA33"
                     {
-                    "Name" = "8:Dex.Utilities.dll"
+                    "Name" = "8:ManagedOpenSsl.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Dex.Utilities.dll"
+            "SourcePath" = "8:ManagedOpenSsl.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
@@ -503,20 +511,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B57D9E2DDC7464DB45240D47101BFF92"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8F455DDA7972ABBF5E0A903D0BA3458C"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Renci.SshNet, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Dex.Utilities, Version=1.0.2.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_B57D9E2DDC7464DB45240D47101BFF92"
+                    "_8F455DDA7972ABBF5E0A903D0BA3458C"
                     {
-                    "Name" = "8:Renci.SshNet.dll"
+                    "Name" = "8:Dex.Utilities.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Renci.SshNet.dll"
+            "SourcePath" = "8:Dex.Utilities.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
@@ -534,82 +542,51 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D74FA6987EA288AB42411E00816B5AD5"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D6D2C8ADA9402AD5FE2163AD49D323AF"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942"
+                "ScatterAssemblies"
+                {
+                    "_D6D2C8ADA9402AD5FE2163AD49D323AF"
+                    {
+                    "Name" = "8:BouncyCastle.Crypto.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:BouncyCastle.Crypto.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EE8B7377ECCCF9EF0DBAF8FF9000635E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_D74FA6987EA288AB42411E00816B5AD5"
+                    "_EE8B7377ECCCF9EF0DBAF8FF9000635E"
                     {
-                    "Name" = "8:Microsoft.WindowsAPICodePack.DLL"
+                    "Name" = "8:Microsoft.WindowsAPICodePack.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Microsoft.WindowsAPICodePack.DLL"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E335A8624E05A2545338D0DFD44DA17C"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ManagedOpenSsl, Version=0.4.4.0, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_E335A8624E05A2545338D0DFD44DA17C"
-                    {
-                    "Name" = "8:ManagedOpenSsl.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:ManagedOpenSsl.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EF886DF2FF9EFCDAA4DB878C8883F7B9"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ManagedOpenSsl, Version=0.4.4.0, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_EF886DF2FF9EFCDAA4DB878C8883F7B9"
-                    {
-                    "Name" = "8:ManagedOpenSsl.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:ManagedOpenSsl.dll"
+            "SourcePath" = "8:Microsoft.WindowsAPICodePack.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
@@ -676,6 +653,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F9C8EAAD566F68DECBA8E9351C94E4B6"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ManagedOpenSsl, Version=0.4.4.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_F9C8EAAD566F68DECBA8E9351C94E4B6"
+                    {
+                    "Name" = "8:ManagedOpenSsl.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ManagedOpenSsl.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_609C102ED6FB44F099057D0EA0E504A6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -746,7 +754,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:LocalTunnel.NET"
         "ProductCode" = "8:{4D912A66-0DC5-44A1-A7EF-2F200BC59622}"
-        "PackageCode" = "8:{608F6CED-0CDB-4DE1-8A53-1359CD2FB732}"
+        "PackageCode" = "8:{99B51411-03F1-4434-B6CE-9A0F04A8C99B}"
         "UpgradeCode" = "8:{05C33385-98CE-4BDA-B38D-8AEBB73C452E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

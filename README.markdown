@@ -35,6 +35,7 @@ Changelog
         Removed temporarily installation packages. 
 - 1.0.3 - Refactored 64 bit code to avoid using build events.
         Readded installation packages.
+- 1.0.4 - Fixed DataGridView error when stopping a tunnel. (issue #8)
 
 Known Bugs
 ----------
