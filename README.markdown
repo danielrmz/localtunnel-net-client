@@ -30,12 +30,12 @@ UI Features
 
 Changelog
 ---------
+- 1.0.4.1 - Fixed DataGridView error when stopping a tunnel. (issue #8)
 - 1.0.4 - Removed dependency with System.Web by using JSON.net deserializer.
 - 1.0.3 - Refactored 64 bit code to avoid using build events.
         Readded installation packages.
 - 1.0.2 - Added support for 64-bit systems (issue #6)
         Removed temporarily installation packages. 
-
 
 Known Bugs
 ----------

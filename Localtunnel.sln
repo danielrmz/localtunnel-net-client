@@ -25,6 +25,11 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LocalTunnel.Installer.x64",
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LocalTunnel.Installer.x86", "Installers\LocalTunnel.Installer.x86\LocalTunnel.Installer.x86.vdproj", "{72F25624-4307-4F3F-9540-D3DEECDBF1A9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4EE0903-7201-412C-9F17-F46FA424685F}"
+	ProjectSection(SolutionItems) = preProject
+		README.markdown = README.markdown
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Localtunnel.vsmdi
