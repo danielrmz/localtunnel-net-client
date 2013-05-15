@@ -4,22 +4,17 @@ localtunnel for windows
 Expose instantly your local webserver to the internet! 
 See [main project](https://github.com/progrium/localtunnel) for more info.
 
-Install & Use
+Build & Use
 -------------
 
-Download the installer msi from the Downloads section, and run the Setup Wizard. 
-This will install LocalTunnel.NET UI & CLI in your file system, and create a 
-shortcut in your start menu. 
-
-If you would like to run the latest build, you could download or git clone the latest 
-version and then:
+If you would like to run the latest build, download or git clone the latest version, 
+verify the active configuration either if your OS is **x86** or **x64** and then build the app.
 
 * From the command line, go to LocalTunnel.Console/bin/4.0/Release/ and run:
    `localtunnel.exe host[:port] [/path/to/private.key]`
 or `localtunnel.exe [host:]port [/path/to/private.key]` 
 
 * UI-based, open LocalTunnel.UI/bin/4.0/Release/LocalTunnel.UI.exe and enter the required info.
-
 
 UI Features
 -----------
@@ -30,6 +25,7 @@ UI Features
 
 Changelog
 ---------
+- 1.0.4.2 - Modified solution configurations for x64 and x86 builds. Removed temporarily installer projects from solution as they are not supported in VS2012. (issue #12)
 - 1.0.4.1 - Fixed DataGridView error when stopping a tunnel. (issue #8)
 - 1.0.4 - Removed dependency with System.Web by using JSON.net deserializer.
 - 1.0.3 - Refactored 64 bit code to avoid using build events.
