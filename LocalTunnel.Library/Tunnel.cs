@@ -408,9 +408,12 @@ namespace LocalTunnel.Library
 
                 string connectHost = string.IsNullOrEmpty(this.LocalHost) ? "127.0.0.1" : this.LocalHost;
 
-                _connectionPort = _client.AddForwardedPort<ForwardedPortRemote>((uint)_config.through_port,  connectHost, (uint)LocalPort);
+                _connectionPort = new ForwardedPortRemote((uint)_config.through_port, connectHost, (uint)LocalPort);
+
                 _connectionPort.Exception += new EventHandler<ExceptionEventArgs>(fw_Exception);
                 _connectionPort.RequestReceived += new EventHandler<PortForwardEventArgs>(port_RequestReceived);
+                _client.AddForwardedPort(_connectionPort);
+                
                 _connectionPort.Start();
             }
             catch (Exception e)

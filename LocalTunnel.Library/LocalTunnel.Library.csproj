@@ -121,6 +121,10 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Renci.SshNet, Version=2013.4.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SSH.NET.2013.4.7\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
@@ -175,10 +179,6 @@
       <Name>Dex.Utilities</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\packages\Renci.SshClient\Renci.SshNet\Renci.SshNet.csproj">
-      <Project>{2F5F8C90-0BD1-424F-997C-7BC6280919D1}</Project>
-      <Name>Renci.SshNet</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\packages\SQLite\sqlite3x64.dll">
@@ -189,6 +189,9 @@
       <Link>sqlite3x86.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -90,10 +90,12 @@ namespace Dex.Utilities
         {
             
             // Generate keys using OpenSSL RSA generator.
-            RSA rsa = new RSA();
-            rsa.GenerateKeys(bits, 65537, null, null);
+            using (RSA rsa = new RSA())
+            {
+                rsa.GenerateKeys(bits, 65537, null, null);
 
-            return GetRsaKeyPair(rsa, comment);
+                return GetRsaKeyPair(rsa, comment);
+            }
         }
 
         private static RsaKeyPair GetRsaKeyPair(RSA rsa, string comment)
