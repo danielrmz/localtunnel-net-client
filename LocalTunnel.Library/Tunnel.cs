@@ -230,6 +230,10 @@ namespace LocalTunnel.Library
         /// </summary>
         private ForwardedPortRemote _connectionPort;
 
+        /// <summary>
+        /// Bits for the certificate
+        /// </summary>
+        private int _bits = 2048;
 
         #endregion
 
@@ -249,7 +253,7 @@ namespace LocalTunnel.Library
 
             // Generate in-memory keys for use.
             string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
-            Dex.Utilities.Cyrpto.RsaKeyPair key = Dex.Utilities.Cyrpto.GenerateRsaKeyPair(2048, comment);
+            Dex.Utilities.Cyrpto.RsaKeyPair key = Dex.Utilities.Cyrpto.GenerateRsaKeyPair(_bits, comment);
 
             this.PublicKey = key.PublicSSHKey;
             this.PrivateKey = key.PrivateKeyAsPEM;
@@ -275,13 +279,19 @@ namespace LocalTunnel.Library
         {
             this.LocalHost = localHost;
             this.LocalPort = localPort;
-            this.PrivateKeyFile = privateKeyFile;
 
-            // Obtain public from private and write it to the same folder.
-            string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
-            
-            Dex.Utilities.Cyrpto.WriteRsaKeyPair(this.PrivateKeyFile, comment);
-            this.PublicKeyFile = string.Format("{0}.pub", this.PrivateKeyFile);
+            string pubKeyFile = string.Format("{0}.pub", privateKeyFile);
+
+            if (!File.Exists(pubKeyFile) || !File.Exists(privateKeyFile))
+            {
+                string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
+                Dex.Utilities.Cyrpto.RsaKeyPair key = Dex.Utilities.Cyrpto.WriteRsaKeyPair(_bits, comment, privateKeyFile);
+            }
+
+            // TODO: Verify validity of the keypair, otherwise generate again. 
+
+            this.PrivateKeyFile = privateKeyFile;
+            this.PublicKeyFile = pubKeyFile; 
         }
 
         /// <summary>
@@ -405,9 +415,11 @@ namespace LocalTunnel.Library
                 {
                     throw new ServiceException("Can't start tunnel, try again.");
                 }
-
+                
                 string connectHost = string.IsNullOrEmpty(this.LocalHost) ? "127.0.0.1" : this.LocalHost;
 
+                //_connectionPort = _client.AddForwardedPort<ForwardedPortRemote>((uint)_config.through_port, connectHost, (uint)LocalPort);
+              
                 _connectionPort = new ForwardedPortRemote((uint)_config.through_port, connectHost, (uint)LocalPort);
 
                 _connectionPort.Exception += new EventHandler<ExceptionEventArgs>(fw_Exception);

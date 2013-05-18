@@ -149,23 +149,7 @@ namespace LocalTunnel.UI
         {
             stripStatus.Text = string.Format("Creating tunnel to port {0}...", port);
 
-            Tunnel tunnel;
-
-            if (File.Exists(_SSHPrivateKeyName))
-            {
-                tunnel = new Tunnel(host, port, sshKeyName);
-            }
-            else
-            {
-                tunnel = new Tunnel(host, port);
-
-                // We save the private key only since the public key will be 
-                // obtained saved later by Tunnel.Library. We could however save it, doesn't really matter.
-                TextWriter tw = new StreamWriter(_SSHPrivateKeyName);
-                tw.WriteLine(tunnel.PrivateKey);
-                tw.Close();
-                
-            }
+            Tunnel tunnel = new Tunnel(host, port, sshKeyName);
             int idx = tunnelBindingSource.List.Count;
             tunnel.ServiceHost = serviceHost;
             tunnel.OnSocketException = new Tunnel.EventSocketException((tun, message) => {

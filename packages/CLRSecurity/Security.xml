@@ -1,0 +1,761 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Security</name>
+    </assembly>
+    <members>
+        <member name="T:Security.AppDomainExtensionMethods">
+            <summary>
+                AppDomainExtensionMethods provides several extension methods for the <see cref="T:System.AppDomain"/> class.
+                This type is in the Security namespace (not the System namespace), so in order to use these
+                extension methods, you will need to make sure you include this namespace as well as a reference to
+                Security.dll.
+            </summary>
+        </member>
+        <member name="M:Security.AppDomainExtensionMethods.GetPermissionSet(System.AppDomain)">
+            <summary>
+                Get the permission set that the current AppDomain is sandboxed with. This is the permission
+                set which is used if a security demand crosses the AppDomain boundary. 
+            </summary>
+            <permission cref="T:System.Security.PermissionSet">This method requries its immediate caller to be fully trusted</permission>
+        </member>
+        <member name="M:Security.AppDomainExtensionMethods.IsHomogenous(System.AppDomain)">
+            <summary>
+                Detect if an AppDomain is a simple sandbox style domain, created by passing a PermissionSet to
+                the <see cref="M:System.AppDomain.CreateDomain(System.String,System.Security.Policy.Evidence,System.AppDomainSetup,System.Security.PermissionSet,System.Security.Policy.StrongName[])"/>
+                call.
+            </summary>
+            <returns>
+                True if the domain is a simple sandbox; false if it is a legacy v1.x domain.
+            </returns>
+        </member>
+        <member name="M:Security.AppDomainExtensionMethods.IsSandboxed(System.AppDomain)">
+            <summary>
+                Determine if an AppDomain is sandboxed
+            </summary>
+            <returns>
+                True if the AppDomain has a grant set other than FullTrust
+            </returns>
+        </member>
+        <member name="T:Security.SandboxActivator">
+            <summary>
+                <para>
+                    SandboxActivator allows you to create a sandboxed instance of an object.  It creates sandboxed
+                    AppDomains and activates objects in the remote domains, return a reference to the remote
+                    sandboxed object.  Objects created with the same grant sets will share AppDomains, rather than
+                    each object getting its own AppDomain.
+                </para>
+                <para>
+                    For example, to get an instance of an object which runs in an Internet sandbox:
+                    <example>
+                        PermissionSet internetGrantSet = PermissionSetFactory.GetStandardPermissionSet(StandardPermissionSet.Internet);
+                        SandboxedObject sandboxed = SandboxActivator.CreateSandboxedInstance&lt;SandboxedObject&gt;(internetGrantSet);
+                    </example>
+                </para>
+            </summary>
+        </member>
+        <member name="M:Security.SandboxActivator.CreateSandboxedInstance``1">
+            <summary>
+                <para>
+                    Create an instance of type <typeparamref name="T"/> in an execute-only AppDomain.
+                </para>
+                <para>
+                    This method is thread safe.
+                </para>
+            </summary>
+            <typeparam name="T">Type to create an execution-only instance of</typeparam>
+        </member>
+        <member name="M:Security.SandboxActivator.CreateSandboxedInstance``1(System.Security.PermissionSet)">
+            <summary>
+                <para>
+                    Create an instance of type <typeparamref name="T"/>  in an AppDomain with the specified
+                    grant set.
+                </para>
+            </summary>
+            <typeparam name="T">Type to create a sandboxed instance of</typeparam>
+            <param name="grantSet">Permissions to grant the object</param>
+            <exception cref="T:System.ArgumentNullException">if <paramref name="grantSet"/> is null</exception>
+            <permission cref="T:System.Security.PermissionSet">
+                This API requires that its immediate caller be fully trusted
+            </permission>
+        </member>
+        <member name="M:Security.SandboxActivator.CreateSandboxedInstance``1(System.Security.PermissionSet,System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+                <para>
+                    Create an instance of type <typeparamref name="T"/> in an AppDomain with the specified
+                    grant set.  Additionally, this domain will allow some extra full trust asemblies to be
+                    loaded into it for use by the partial trust code.
+                </para>
+                <para>
+                    This method is thread safe.
+                </para>
+            </summary>
+            <typeparam name="T">Type to create a sandboxed instance of</typeparam>
+            <param name="grantSet">Permission set to grant the object</param>
+            <param name="fullTrustList">Optional list of fullly trusted assemblies for the object to work with</param>
+            <exception cref="T:System.ArgumentNullException">if <paramref name="grantSet"/> is null</exception>
+            <permission cref="T:System.Security.PermissionSet">
+                This API requires that its immediate caller be fully trusted
+            </permission>
+        </member>
+        <member name="M:Security.SandboxActivator.IsCandidateSandbox(System.AppDomain,System.String,System.Security.PermissionSet,System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+                Determine if a sandboxed AppDomain is a candidate for being used for a new object
+            </summary>
+        </member>
+        <member name="T:Security.SandboxFactory">
+            <summary>
+                SandboxFactory can be used to wrap the process of making a simple homogenous AppDomain.
+            </summary>
+        </member>
+        <member name="M:Security.SandboxFactory.CreateSandbox(System.String,System.Security.PermissionSet)">
+            <summary>
+                Create a homogenous sandboxed AppDomain rooted at the specified AppBase
+            </summary>
+            <param name="applicationBase">location where the application to be sandboxed lives</param>
+            <param name="grantSet">permissions to grant the sandbox</param>
+            <exception cref="T:System.ArgumentNullException">
+                if <paramref name="applicationBase"/> or <paramref name="grantSet"/> are null
+            </exception>
+        </member>
+        <member name="M:Security.SandboxFactory.CreateSandbox(System.String,System.Security.PermissionSet,System.Reflection.Assembly[])">
+            <summary>
+                Create a homogenous AppDomain rooted at the specified AppBase, which has an optional
+                collection of full trust assemblies
+            </summary>
+            <param name="applicationBase">location where the application to be sandboxed lives</param>
+            <param name="grantSet">permissions to grant the sandbox</param>
+            <param name="fullTrustAssemblies">optional list of assemblies to grant full trust in the sandbox</param>
+            <exception cref="T:System.ArgumentNullException">
+                if <paramref name="applicationBase"/> or <paramref name="grantSet"/> are null
+            </exception>
+        </member>
+        <member name="T:Security.SecurityElementExtensionMethods">
+            <summary>
+                SecurityElementExtensionMehods provides several extension methods for the <see cref="T:System.Security.SecurityElement"/> class. This type is in the Security namespace (not the System.Security
+                namespace), so in order to use these extension methods, you will need to make sure you include
+                this namespace as well as a reference to Security.dll.
+            </summary>
+        </member>
+        <member name="M:Security.SecurityElementExtensionMethods.ToXmlElement(System.Security.SecurityElement)">
+            <summary>
+                Convert a SecurityElement XML tree to an equivilent tree in the System.Xml object model
+            </summary>
+        </member>
+        <member name="M:Security.SecurityElementExtensionMethods.ToXmlElement(System.Security.SecurityElement,System.Xml.XmlDocument)">
+            <summary>
+                Convert a SecurityElement XML tree to an equivilent tree in the System.Xml object model
+            </summary>
+            <param name="securityElement">security element to convert</param>
+            <param name="containingDocument">XML document to create the XML tree from</param>
+            <exception cref="T:System.ArgumentNullException">if <paramref name="containingDocument"/> is null</exception>
+        </member>
+        <member name="M:Security.SecurityElementExtensionMethods.XmlEquals(System.Security.SecurityElement,System.Security.SecurityElement)">
+            <summary>
+                Perform a case-senstive comparsion of the content of two security elements
+            </summary>
+            <param name="lhs">SecurityElement to compare</param>
+            <param name="rhs">SecurityElement to compare against</param>
+            <exception cref="T:System.ArgumentNullException">if <paramref name="rhs"/> is null</exception>
+        </member>
+        <member name="M:Security.SecurityElementExtensionMethods.XmlEquals(System.Security.SecurityElement,System.Security.SecurityElement,System.StringComparison)">
+            <summary>
+                Perform a comparison of the content of two security elements
+            </summary>
+            <param name="lhs">SecurityElement to compare</param>
+            <param name="rhs">SecurityElement to compare against</param>
+            <param name="comparisonType">type of comparison to perform</param>
+            <exception cref="T:System.ArgumentNullException">if <paramref name="rhs"/> is null</exception>
+        </member>
+        <member name="T:Security.StandardPermissionSet">
+            <summary>
+                The StandardPermissionSet enumeration identifies the standard built-in permission sets that the
+                CLR uses.
+            </summary>
+        </member>
+        <member name="F:Security.StandardPermissionSet.Nothing">
+            <summary>
+                The empty permission set
+            </summary>
+        </member>
+        <member name="F:Security.StandardPermissionSet.Execution">
+            <summary>
+                A permission set which only contains permission to execute
+            </summary>
+        </member>
+        <member name="F:Security.StandardPermissionSet.Internet">
+            <summary>
+                A permission set which is safe to grant applications from the Internet.
+            </summary>
+        </member>
+        <member name="F:Security.StandardPermissionSet.LocalIntranet">
+            <summary>
+                A permission set which is safe to grant applications from the local network.
+            </summary>
+        </member>
+        <member name="F:Security.StandardPermissionSet.Everything">
+            <summary>
+                The Everything permission set contains unrestricted versions of all built in permissions,
+                with the exception of SecurityPermission which does not contain the skip verification flag. 
+                This permission set should not be used as a sandbox, and is generally interesting only for
+                testing purposes.
+            </summary>
+        </member>
+        <member name="F:Security.StandardPermissionSet.FullTrust">
+            <summary>
+                The FullTrust permission set is a superset of all other permission sets.
+            </summary>
+        </member>
+        <member name="T:Security.PermissionSetFactory">
+            <summary>
+                The PermissionSetFactory class provides methods to easily get copies of common permission sets.
+            </summary>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetEverythingPermissionSet">
+            <summary>
+                Obtain a copy of the Everything permission set
+            </summary>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetExecutionPermissionSet">
+            <summary>
+                Generate a permission set with only the permission to execute in it
+            </summary>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetFullTrustPermissionSet">
+            <summary>
+                Generate a copy of the full trust permission set.
+            </summary>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetLocalIntranetPermissionSet(System.Security.Policy.Url)">
+            <summary>
+                Generate the LocalIntranet permission set, optionally extending it with same site permissions
+            </summary>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetInternetPermissionSet(System.Security.Policy.Url)">
+            <summary>
+                Generate the Internet permission set, optionally extending it with same site permissions
+            </summary>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetNothingPermissionSet">
+            <summary>
+                Generate a copy of the Nothing permission set
+            </summary>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetStandardSandbox(System.Security.Policy.Evidence)">
+            <summary>
+                Get a sandbox permission set which is safe to use for an assembly that has the given
+                evidence.  This is explicitly not a policy API - it instead provides guidance for hosts
+                which can use this set in their decisions as to how to sandbox an assembly best.  CAS policy
+                is not consulted when generating this suggested permission set.
+            </summary>
+            <param name="evidence">evidence to get a standard sandbox for</param>
+            <exception cref="T:System.ArgumentNullException">
+                if <paramref name="evidence"/> is null
+            </exception>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetStandardPermissionSet(Security.StandardPermissionSet)">
+            <summary>
+                Build a copy of a given standard permission set, without including any same site permissions.
+            </summary>
+            <param name="permissionSet">standard permission set to generate</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                if <paramref name="permissionSet"/> is not one of the standard permission sets
+            </exception>
+        </member>
+        <member name="M:Security.PermissionSetFactory.GetStandardPermissionSet(Security.StandardPermissionSet,System.Security.Policy.Url)">
+            <summary>
+                Build a copy of a given standard permission set, optionally extending it with same site
+                permission for the given source URL.
+            </summary>
+            <param name="permissionSet">standard permission set to generate</param>
+            <param name="sourceUrl">optional source URL to generate same site permission for</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                if <paramref name="permissionSet"/> is not one of the standard permission sets
+            </exception>
+        </member>
+        <member name="P:Security.PermissionSetFactory.MachinePolicyLevel">
+            <summary>
+                Get a copy of the Machine policy level which can be used to get at the standard permission sets
+            </summary>
+        </member>
+        <member name="P:Security.PermissionSetFactory.WpfPermissionSet">
+            <summary>
+                Get the WPF permissions to extend the internet and intranet permission sets with if WPF is on
+                the machine.
+            </summary>
+        </member>
+        <member name="T:Security.Policy.ApplicationTrustExtensionMethods">
+            <summary>
+                ApplicationTrustExtensionMethods provides extension methods for the <see cref="T:System.Security.Policy.ApplicationTrust"/>
+                class This type is in the Security.Policy namespace (not the System.Security.Policy namespace), so
+                in order to use these extension methods, you will need to make sure you include this namespace as
+                well as a reference to Security.dll.
+            </summary>
+        </member>
+        <member name="M:Security.Policy.ApplicationTrustExtensionMethods.GetFullTrustAssemblies(System.Security.Policy.ApplicationTrust)">
+            <summary>
+                An ApplicationTrust object contains a default grant set as well as a list of assemblies which
+                are fully trusted. The GetFullTrustAssemblies method retrieves the strong names of assemblies
+                which the ApplicationTrust object considers to be fully trusted.
+            </summary>
+        </member>
+        <member name="M:Security.Policy.ApplicationTrustExtensionMethods.ConvertHexDigit(System.Char)">
+            <summary>
+                Utility method to convert a signle hex digit into a byte
+            </summary>
+        </member>
+        <member name="M:Security.Policy.ApplicationTrustExtensionMethods.HexToBytes(System.String)">
+            <summary>
+                Utility method to convert a hex string into the corresponding byte array
+            </summary>
+        </member>
+        <member name="T:Security.Policy.EvidenceExtensionMethods">
+            <summary>
+                EvidenceExtensionMethods provides several extension methods for the <see cref="T:System.Security.Policy.Evidence"/> class.
+                This type is in the Security.Policy namespace (not the System.Security.Policy namespace), so in
+                order to use these extension methods, you will need to make sure you include this namespace as
+                well as a reference to Security.dll.
+            </summary>
+        </member>
+        <member name="M:Security.Policy.EvidenceExtensionMethods.AddHostEvidence``1(System.Security.Policy.Evidence,``0)">
+            <summary>
+                Add an object to the host evidence list, ensuring that only one item of evidence of the
+                given type exists in the final evidence collection.
+            </summary>
+            <typeparam name="T">Type of evidence being added</typeparam>
+            <param name="evidence">evidence collection to add to</param>
+            <param name="evidenceObject">object to add to the evidence collection</param>
+            <exception cref="T:System.ArgumentNullException">if <paramref name="evidenceObject"/> is null</exception>
+            <exception cref="T:System.InvalidOperationException">
+                if the evidence collection already contains an evidence object of type <typeparamref name="T"/>
+            </exception>
+        </member>
+        <member name="M:Security.Policy.EvidenceExtensionMethods.GetAssemblyEvidence``1(System.Security.Policy.Evidence)">
+            <summary>
+                Get the first evidence object of type <typeparamref name="T"/> supplied by the assembly that
+                the Evidence collection is for.
+            </summary>
+            <typeparam name="T">Type of assembly evidence that should be obtained.</typeparam>
+            <returns>
+                The first evidence object of type <typeparamref name="T"/> that is in the assembly supplied
+                evidence, or null if the assembly has not supplied any evidence of type <typeparamref name="T"/>.
+            </returns>
+        </member>
+        <member name="M:Security.Policy.EvidenceExtensionMethods.GetEvidence``1(System.Collections.IEnumerator)">
+            <summary>
+                Find the requested piece of evidence in an evidence enumerator
+            </summary>
+        </member>
+        <member name="M:Security.Policy.EvidenceExtensionMethods.GetHostEvidence``1(System.Security.Policy.Evidence)">
+            <summary>
+                Get the first evidence object of type <typeparamref name="T"/> supplied by the host in the
+                Evidence collection.
+            </summary>
+            <typeparam name="T">Type of host evidence that should be obtained.</typeparam>
+            <returns>
+                The first evidence object of type <typeparamref name="T"/> that is in the host supplied
+                evidence, or null if the host has not supplied any evidence of type <typeparamref name="T"/>.
+            </returns>
+        </member>
+        <member name="T:Security.Policy.StrongNameExtensionMethods">
+            <summary>
+                StrongNameExtensionMethods provides several extension methods for the <see cref="T:System.Security.Policy.StrongName"/>
+                class. This type is in the Security.Policy namespace (not the System.Security.Policy namespace),
+                so in order to use these extension methods, you will need to make sure you include this namespace
+                as well as a reference to Security.dll.
+            </summary>
+        </member>
+        <member name="M:Security.Policy.StrongNameExtensionMethods.CreateMembershipCondition(System.Security.Policy.StrongName)">
+            <summary>
+                The CreateMembershipCondition method builds a membership condition which exactly matches the
+                strong name (including version).
+            </summary>
+        </member>
+        <member name="T:Security.Principal.GroupSecurityIdentifierAttributes">
+            <summary>
+                <para>
+                    Attributes that can be associated with a group's SecurityIdentifier.
+               </para>
+               <para>
+                    These values map to the group attributes documented on
+                    http://msdn.microsoft.com/en-us/library/aa379624.aspx
+               </para>
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.None">
+            <summary>
+                No attributes are set on the group SID.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.Mandatory">
+            <summary>
+                The group cannot have its Enabled bit removed.  This maps to the SE_GROUP_MANDATORY attribute.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.EnabledByDefault">
+            <summary>
+                The group is enabled by default.  This maps to the SE_GROUP_ENABLED_BY_DEFAULT attribute.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.Enabled">
+            <summary>
+                The group is enabled for use in access checks.  This maps to the SE_GROUP_ENABLED attribute.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.Owner">
+            <summary>
+                The token that the group is pulled from is the owner of the group.  This maps to the
+                SE_GROUP_OWNER attribute.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.DenyOnly">
+            <summary>
+                The group can only be used to match deny ACEs, and will not match allow ACEs.  This maps to
+                the SE_GROUP_USE_FOR_DENY_ONLY attribute.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.Integrity">
+            <summary>
+                The group is used to set the integrity level of the token.  This maps to the
+                SE_GROUP_INTEGRITY attribute.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.IntegrityEnabled">
+            <summary>
+                The group is used to set the integrity level of the token.  This maps to the
+                SE_GROUP_INTEGRITY_ENABLED attribute.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.Resource">
+            <summary>
+                The group is domain-local.  This maps to the SE_GROUP_RESOURCE attribute.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.GroupSecurityIdentifierAttributes.LogOnIdentifier">
+            <summary>
+                The group identifies the logon session of the token.  This maps to the SE_GROUP_LOGON_ID
+                attribute.
+            </summary>
+        </member>
+        <member name="T:Security.Principal.GroupSecurityIdentifierInformation">
+            <summary>
+                SecurityIdentifierInformation contains a group SID and an associated set of attributes for that
+                group.
+            </summary>
+        </member>
+        <member name="M:Security.Principal.GroupSecurityIdentifierInformation.#ctor(System.Security.Principal.SecurityIdentifier,Security.Principal.GroupSecurityIdentifierAttributes)">
+            <summary>
+                Create a GroupSecurityIdentifierInformation object for a SID.
+            </summary>
+            <param name="sid">group SID to associate attributes with</param>
+            <param name="attributes">attributes associated with the SID</param>
+            <exception cref="T:System.ArgumentNullException">
+                If <paramref name="sid"/> is null.
+            </exception>
+        </member>
+        <member name="P:Security.Principal.GroupSecurityIdentifierInformation.Attributes">
+            <summary>
+                Get the attributes associated with a group SID.
+            </summary>
+        </member>
+        <member name="P:Security.Principal.GroupSecurityIdentifierInformation.SecurityIdentifier">
+            <summary>
+                Get the group SID associated with the attributes.
+            </summary>
+        </member>
+        <member name="T:Security.Principal.LogOnProvider">
+            <summary>
+                The LogOnProvider enumeration contains the types of logon providers which may be used to perform
+                the logon operation.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnProvider.Default">
+            <summary>
+                Use the default logon provider.  This is equivalent to the LOGON32_PROVIDER_DEFAULT provider.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnProvider.WinNT40">
+            <summary>
+                Use the NTLM logon provider.  This is equivalent to the LOGON32_PROVIDER_WINNT40 provider.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnProvider.WinNT50">
+            <summary>
+                Use the negotiate logon provider.  This is equivalent to the LOGON32_PROVIDER_WINNT50 provider.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnProvider.Virtual">
+            <summary>
+                Use the virtual logon provider.  This is equivalent to the LOGON32_PROVIDER_VIRTUAL provider.
+            </summary>
+        </member>
+        <member name="T:Security.Principal.LogOnType">
+            <summary>
+                The LogOnType enumeration contains the types of logon operations that may be performed.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnType.None">
+            <summary>
+                No logon type - this is not a valid logon type to use with LogonUser
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnType.Interactive">
+            <summary>
+                Logon as an interactive user, which may cause additional caching and therefore not be
+                appropriate for some server scenarios.  This is equivalent to the LOGON32_LOGON_INTERACTIVE
+                logon type.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnType.Network">
+            <summary>
+                Logon type for servers to check cleartext passwords.  No caching is done for this type of
+                logon.  This is equivalent to the LOGON32_LOGON_NETWORK logon type.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnType.Batch">
+            <summary>
+                Logon type for servers who act on behalf of users without their intervention, or who
+                processs many cleartext passwords at time.  This is equivalent to the LOGON32_LOGON_BATCH
+                logon type.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnType.Service">
+            <summary>
+                Logon as a service.  The account being logged on must have privilege to act as a service. 
+                This is equivalent to the LOGON32_LOGON_SERVICE logon type.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnType.Unlock">
+            <summary>
+                Logon type for GINA DLLs to unlock the machine with.  This is equivalent to the
+                LOGON32_LOGON_UNLOCK logon type.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnType.NetworkClearText">
+            <summary>
+                Logon type which allows caching of the text password in the authentication provider in order
+                to allow connections to multiple network services with the same credentials.  This is
+                equivalent to the LOGON32_LOGON_NETWORK_CLEARTEXT logon type.
+            </summary>
+        </member>
+        <member name="F:Security.Principal.LogOnType.NewCredentials">
+            <summary>
+                Logon type which creates a token with the same identity as the current user token for the
+                local proces, but provides new credentials for outbound network connections.  This is
+                equivalent to the LOGON32_LOGON_NEW_CREDENTIALS logon type.
+            </summary>
+        </member>
+        <member name="T:Security.Principal.NTAccountExtensionMethods">
+            <summary>
+                Extension methods for the <see cref="T:System.Security.Principal.NTAccount"/> class.  These
+                extension methods are in the Security.Principal namespace, so in order to use them both the
+                Security.Principal and System.Security.Principal namespaces must be included in your code.
+            </summary>
+        </member>
+        <member name="M:Security.Principal.NTAccountExtensionMethods.GetUserAndDomainName(System.Security.Principal.NTAccount,System.String@,System.String@)">
+            <summary>
+                 Get the user name and domain name that correspond to an NTAccount for use with logon user
+            </summary>
+        </member>
+        <member name="M:Security.Principal.NTAccountExtensionMethods.LogOnUser(System.Security.Principal.NTAccount,System.String)">
+            <summary>
+                Log a user on using a clear string password.  This method uses the default logon provider
+                and performs an interactive logon.
+            </summary>
+            <permission cref="T:System.Security.Permissions.SecurityPermission">This method demands SecurityPermission/ControlPrincipal</permission>
+        </member>
+        <member name="M:Security.Principal.NTAccountExtensionMethods.LogOnUser(System.Security.Principal.NTAccount,System.String,Security.Principal.LogOnType,Security.Principal.LogOnProvider)">
+            <summary>
+                Log a user on using a clear string password, specifying the logon type and provider to use.
+            </summary>
+            <permission cref="T:System.Security.Permissions.SecurityPermission">This method demands SecurityPermission/ControlPrincipal</permission>
+        </member>
+        <member name="M:Security.Principal.NTAccountExtensionMethods.LogOnUser(System.Security.Principal.NTAccount,System.Security.SecureString)">
+            <summary>
+                Log a user on using a secure password.  This method uses the default logon provider and
+                performs an interactive logon.
+            </summary>
+            <permission cref="T:System.Security.Permissions.SecurityPermission">This method demands SecurityPermission/ControlPrincipal</permission>
+        </member>
+        <member name="M:Security.Principal.NTAccountExtensionMethods.LogOnUser(System.Security.Principal.NTAccount,System.Security.SecureString,Security.Principal.LogOnType,Security.Principal.LogOnProvider)">
+            <summary>
+                Log a user on using a secure password, specifying the logon type and provider to use.
+            </summary>
+            <permission cref="T:System.Security.Permissions.SecurityPermission">This method demands SecurityPermission/ControlPrincipal</permission>
+        </member>
+        <member name="T:Security.Principal.SafeTokenHandle">
+            <summary>
+                <para>
+                    SafeHandle class for a Win32 HANDLE representing a windows token.  This class can be used
+                    instead of the raw IntPtr returned from <see cref="P:System.Security.Principal.WindowsIdentity.Token"/>
+                    in order to prevent the WindowsIdentity object from closing out the hande from underneath you
+                    if it is garbage collected before your use of the handle is complete.
+                </para>
+                <para>
+                    A SafeTokenHandle for a WindowsIdentity can be obtained by calling the
+                    <see cref="M:Security.Principal.WindowsIdentityExtensionMethods.GetSafeTokenHandle(System.Security.Principal.WindowsIdentity)"/> extension method.
+                </para>
+            </summary>
+            <permission cref="T:System.Security.Permissions.SecurityPermission">
+                The immediate caller must have SecurityPermission/UnmanagedCode to use this type.
+            </permission>
+        </member>
+        <member name="T:Security.Principal.WindowsIdentityExtensionMethods">
+            <summary>
+                Extension methods for the <see cref="T:System.Security.Principal.WindowsIdentity"/> class.  These
+                extension methods are in the Security.Principal namespace, so in order to use them both the
+                Security.Principal and System.Security.Principal namespaces must be included in your code.
+            </summary>
+        </member>
+        <member name="M:Security.Principal.WindowsIdentityExtensionMethods.GetAllGroups(System.Security.Principal.WindowsIdentity)">
+            <summary>
+                Get the group information for all of the groups that associated with the
+                <see cref="T:System.Security.Principal.WindowsIdentity"/>.  This is different from the standard
+                <see cref="P:System.Security.Principal.WindowsIdentity.Groups"/> property in that none of the
+                returned groups are filtered out.  Before using any of the groups, it is important to ensure
+                that they are enabled and not for deny-only by checking their attributes.
+            </summary>
+            <returns>
+                A collection of <see cref="T:Security.Principal.GroupSecurityIdentifierInformation"/> objects containing the group
+                SIDs which are attacked to the WindowsIdentity's token, as well as the associated attributes.
+            </returns>
+        </member>
+        <member name="M:Security.Principal.WindowsIdentityExtensionMethods.GetSafeTokenHandle(System.Security.Principal.WindowsIdentity)">
+            <summary>
+                Get a SafeHandle for the token that the WindowsIdentity represents.
+            </summary>
+            <returns>
+                A <see cref="T:Security.Principal.SafeTokenHandle"/> for the token of the WindowsIdentity.  This token handle can
+                be used beyond the lifetime of the originating WindowsIdentity object and must be disposed of
+                seperately.
+            </returns>
+        </member>
+        <member name="M:Security.Principal.WindowsIdentityExtensionMethods.IsAdministrator(System.Security.Principal.WindowsIdentity)">
+            <summary>
+                Determine if the a WindowsIdentity is in the Administrator role
+            </summary>
+        </member>
+        <member name="T:Security.Reflection.AssemblyExtensionMethods">
+            <summary>
+                AssemblyExtensionMethods provides several extension methods for the <see cref="T:System.Reflection.Assembly"/> class.
+                This type is in the Security.Reflection namespace (not the System.Reflection namespace), so in
+                order to use these extension methods, you will need to make sure you include this namespace as
+                well as a reference to Security.dll.
+            </summary>
+        </member>
+        <member name="M:Security.Reflection.AssemblyExtensionMethods.GetPermissionSet(System.Reflection.Assembly)">
+            <summary>
+                The GetPermissionSet method returns the permission set that an assembly is granted. This
+                method works for assemblies loaded via implicit loads, or explicit calls to <see cref="M:System.Reflection.Assembly.Load(System.String)"/> or <see cref="M:System.Reflection.Assembly.LoadFrom(System.String)"/>. Results may not be
+                accurate for assemblies loaded via <see cref="M:System.Reflection.Assembly.Load(System.Byte[])"/>, or dynamic assemblies
+                created with <see cref="M:System.AppDomain.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)"/>.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet">This method requries its immediate caller to be fully trusted</permission>
+        </member>
+        <member name="M:Security.Reflection.AssemblyExtensionMethods.GetStrongName(System.Reflection.Assembly)">
+            <summary>
+                Get an assembly's strong name.
+            </summary>
+            <remarks>
+                The <see cref="T:System.Security.Policy.StrongName"/> object returned may be different from the strong name in the
+                assembly's evidence if a host has chosen to customize the evidence the assembly was loaded
+                with.
+            </remarks>
+            <exception cref="T:System.ArgumentException">if the assembly is not strongly named</exception>
+        </member>
+        <member name="M:Security.Reflection.AssemblyExtensionMethods.IsFullyTrusted(System.Reflection.Assembly)">
+            <summary>
+                Determine if an assembly is granted full trust in the current domain.
+            </summary>
+            <remarks>
+                Results may not be accurate for assemblies loaded via <see cref="M:System.Reflection.Assembly.Load(System.Byte[])"/>, or
+                dynamic assemblies created with
+                <see cref="M:System.AppDomain.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)"/>
+            </remarks>
+        </member>
+        <member name="M:Security.Reflection.AssemblyExtensionMethods.IsStrongNamed(System.Reflection.Assembly)">
+            <summary>
+                Determine if an assembly is strong name signed.  This method does not attempt to detect if
+                the assembly is delay signed and loaded because of a skip verification entry on the machine.
+            </summary>
+        </member>
+        <member name="T:Security.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Security.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Security.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Security.Properties.Resources.AssemblyNotStrongNamed">
+            <summary>
+              Looks up a localized string similar to The assembly is not strong name signed..
+            </summary>
+        </member>
+        <member name="P:Security.Properties.Resources.DuplicateEvidence">
+            <summary>
+              Looks up a localized string similar to This evidence collection already contains an evidence object of type &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="T:Security.Win32Native">
+            <summary>
+                Native wrappers for Win32 APIs.
+                
+                The general pattern for this interop layer is that the Win32 type exports a wrapper method
+                for consumers of the interop methods.  This wrapper method puts a managed face on the raw
+                P/Invokes, by translating from native structures to managed types and converting from error
+                codes to exceptions.
+                
+                The native definitions here are generally found in windows.h, winbase.h, and winnt.h
+            </summary>
+        </member>
+        <member name="M:Security.Win32Native.DuplicateTokenHandle(System.IntPtr)">
+            <summary>
+                Duplicate a raw IntPtr handle from a WindowsIdentity into a SafeTokenHandle
+            </summary>
+        </member>
+        <member name="M:Security.Win32Native.GetTokenInformation(Security.Principal.SafeTokenHandle,Security.Win32Native.TokenInformationClass)">
+            <summary>
+                Get raw token information
+            </summary>
+        </member>
+        <member name="M:Security.Win32Native.LogOnUser(System.String,System.String,System.String,Security.Principal.LogOnType,Security.Principal.LogOnProvider)">
+            <summary>
+                Logon a user with a string password.
+            </summary>
+        </member>
+        <member name="M:Security.Win32Native.LogOnUser(System.String,System.String,System.Security.SecureString,Security.Principal.LogOnType,Security.Principal.LogOnProvider)">
+            <summary>
+                Logon a user with a SecureString password.
+            </summary>
+        </member>
+        <member name="M:Security.Win32Native.LogOnUser(System.String,System.String,System.IntPtr,Security.Principal.LogOnType,Security.Principal.LogOnProvider)">
+            <summary>
+                Logon a user
+            </summary>
+        </member>
+        <member name="T:Security.Win32Native.DuplicateHandleOptions">
+            <summary>
+                Flags for the DuplicateHandle API
+            </summary>
+        </member>
+        <member name="T:Security.Win32Native.TokenInformationClass">
+            <summary>
+                Token information type specifier for the GetTokenInformation API
+            </summary>
+        </member>
+        <member name="T:Security.SafeBuffer">
+            <summary>
+                Safe handle type wrapping a buffer that can be accessed as an array
+            </summary>
+        </member>
+    </members>
+</doc>

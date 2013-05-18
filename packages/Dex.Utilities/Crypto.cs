@@ -8,6 +8,7 @@ namespace Dex.Utilities
     using Encoding = System.Text.Encoding;
     using PemReader = Org.BouncyCastle.OpenSsl.PemReader;
     using RsaKeyParameters = Org.BouncyCastle.Crypto.Parameters.RsaKeyParameters;
+    using System.Security.Cryptography;
 
     /// <summary>
     /// Simple utility class for obtaining a compatible set of keys
@@ -26,6 +27,7 @@ namespace Dex.Utilities
             public string PrivateKeyAsPEM;
             public string PublicKeyAsPEM;
             public string PublicSSHKey;
+            public RSAParameters RSAParameters;
         }
 
         /// <summary>
@@ -35,51 +37,20 @@ namespace Dex.Utilities
         /// <param name="bits"></param>
         /// <param name="comment"></param>
         /// <param name="privFileName"></param>
-        public static void WriteRsaKeyPair(int bits,  string comment, string privFileName)
+        public static RsaKeyPair WriteRsaKeyPair(int bits, string comment, string privFileName)
         {
             RsaKeyPair pair = GenerateRsaKeyPair(bits, comment);
-            TextWriter tw;
-
-            tw = new StreamWriter(privFileName, false);
-            tw.WriteLine(pair.PrivateKeyAsPEM);
-            tw.Close();
             
-            tw = new StreamWriter(privFileName + ".pub", false);
-            tw.WriteLine(pair.PublicSSHKey);
-            tw.Close();
-        }
+            using(TextWriter tw = new StreamWriter(privFileName, false), 
+                             twpub = new StreamWriter(privFileName + ".pub", false)) {
 
-        /// <summary>
-        /// Writes the public key from the private key specified.
-        /// </summary>
-        /// <param name="privateKeyFile"></param>
-        public static void WriteRsaKeyPair(string privateKeyFile, string comment)
-        {   
-            RsaKeyPair pair = GenerateRsaKeyPair(privateKeyFile, comment);
-
-            // We only need to write the public key since we already got the private one.
-            TextWriter tw = new StreamWriter(privateKeyFile + ".pub", false);
-            tw.WriteLine(pair.PublicSSHKey);
-            tw.Close();
-        }
-
-        /// <summary>
-        /// Parses the private key to obtain both.
-        /// </summary>
-        /// <param name="privateKeyFile">The filename of the private key</param>
-        /// <returns></returns>
-        public static RsaKeyPair GenerateRsaKeyPair(string privateKeyFile, string comment)
-        {
-            if (!File.Exists(privateKeyFile))
-            {
-                throw new FileNotFoundException("Private key file not found");
+                tw.WriteLine(pair.PrivateKeyAsPEM);
+                twpub.WriteLine(pair.PublicSSHKey); 
             }
 
-            RSA rsa = RSA.FromPrivateKey(new OpenSSL.Core.BIO(Encoding.Default.GetBytes(File.ReadAllText(privateKeyFile))));
-            
-            return GetRsaKeyPair(rsa, comment);
+            return pair;
         }
-
+        
         /// <summary>
         /// Generates the Rsa keys accordingly.
         /// </summary>
@@ -88,24 +59,13 @@ namespace Dex.Utilities
         /// <returns></returns>
         public static RsaKeyPair GenerateRsaKeyPair(int bits, string comment)
         {
-            
-            // Generate keys using OpenSSL RSA generator.
-            using (RSA rsa = new RSA())
-            {
-                rsa.GenerateKeys(bits, 65537, null, null);
-
-                return GetRsaKeyPair(rsa, comment);
-            }
-        }
-
-        private static RsaKeyPair GetRsaKeyPair(RSA rsa, string comment)
-        {
             const string sshrsa = "ssh-rsa";
             
-            // Use Bouncy castle's pem reader to get the modulus and exponent as a byte array
-            PemReader reader = new PemReader(new StringReader(rsa.PublicKeyAsPEM));
-            RsaKeyParameters r = (RsaKeyParameters)reader.ReadObject();
+            var generatedKey = RSAKeyGenerator.Generate(bits, comment);
 
+            PemReader reader = new PemReader(new StringReader(generatedKey.PublicKeyAsPEM));
+            RsaKeyParameters r = (RsaKeyParameters)reader.ReadObject();
+            
             byte[] sshrsa_bytes = Encoding.Default.GetBytes(sshrsa);
             byte[] n = r.Modulus.ToByteArray();
             byte[] e = r.Exponent.ToByteArray();
@@ -118,16 +78,10 @@ namespace Dex.Utilities
             // Encode in Base64
             string buffer64 = buf.AsBase64String();
 
-            // Set the base DTO
-            RsaKeyPair pair = new RsaKeyPair()
-            {
-                PublicSSHKey = string.Format("ssh-rsa {0} {1}", buffer64, comment),
-                PublicKeyAsPEM = rsa.PublicKeyAsPEM,
-                PrivateKeyAsPEM = rsa.PrivateKeyAsPEM,
-                // Later add parameters if required.
-            };
+            generatedKey.PublicSSHKey = string.Format("{0} {1} {2}", sshrsa, buffer64, comment);
 
-            return pair;
+            return generatedKey;
         }
+        
     }
 }

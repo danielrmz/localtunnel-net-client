@@ -104,6 +104,15 @@
     <Reference Include="Renci.SshNet">
       <HintPath>..\SSH.NET.2013.4.7\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
+    <Reference Include="Security">
+      <HintPath>..\CLRSecurity\Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Security.Cryptography">
+      <HintPath>..\CLRSecurity\Security.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Security.Cryptography.Debug">
+      <HintPath>..\CLRSecurity\Security.Cryptography.Debug.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -116,6 +125,7 @@
     <Compile Include="Buffer.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Crypto\RSAKeyGenerator.cs" />
     <Compile Include="Web.cs" />
   </ItemGroup>
   <ItemGroup>

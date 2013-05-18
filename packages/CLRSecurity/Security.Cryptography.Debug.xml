@@ -1,0 +1,461 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Security.Cryptography.Debug</name>
+    </assembly>
+    <members>
+        <member name="T:Security.Cryptography.AuthenticatedCryptoTransformShim">
+            <summary>
+                Shim authenticated crypto transform which hooks acess to a wrapped transform and ensures it is
+                being used properly.
+                
+                See code:System.Security.Cryptography.AuthenticatedSymmetricAlgorithmShim
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.CryptoTransformShim">
+            <summary>
+                Shim crypto transform which hooks acess to a wrapped transform and ensures it is being used properly.
+                
+                See code:System.Security.Cryptography.SymmetricAlgorithmShim
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.CryptoTransformShim.CheckThreadAccess">
+            <summary>
+                Make sure that the transform is being used in a thread-safe manner
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.CryptoTransformShim.WrappedTransform">
+            <summary>
+                Provide access to the wrapped transform for derived shims
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.AuthenticatedCryptoTransformShim.WrappedAuthenticatedTransform">
+            <summary>
+                Provide access to the wrapped transform typed as an authenticated wrapped transform
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.AuthenticatedSymmetricAlgorithmExtensionMethods">
+             <summary>
+                 Extension methods for the AuthenticatedSymmetricAlgorithm class which enable setting up logging
+                 and verification.  SymmetricAlgorithm's extension methods already know how to setup diagnostics
+                 for an authenticated symmetric algortihm, so these extension methods exist just to type the
+                 return value more strongly.
+            
+                 See code:System.Security.Cryptography.SymmetricAlgorithmExtensionMethods
+             </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricAlgorithmExtensionMethods.EnableLogging(Security.Cryptography.AuthenticatedSymmetricAlgorithm)">
+            <summary>
+                Create an AuthenticatedSymmetricAlgorithm which logs the encryption operation of the input
+                algorithm, but does not monitor for thread safe access to the object.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricAlgorithmExtensionMethods.EnableLogging(Security.Cryptography.AuthenticatedSymmetricAlgorithm,Security.Cryptography.SymmetricAlgorithmDiagnosticOptions)">
+            <summary>
+                Create an AuhtenticatedSymmetricAlgorithm which logs the encryption operation of the input algorithm
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricAlgorithmExtensionMethods.EnableDecryptionVerification(Security.Cryptography.AuthenticatedSymmetricAlgorithm,Security.Cryptography.AuthenticatedSymmetricEncryptionState)">
+            <summary>
+                Create an AuthenticatedSymmetricAlgorithm which verifies the decryption operations done on it
+                have state which matches captured encryption state. This overload does not monitor for thread
+                safe access to the object.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricAlgorithmExtensionMethods.EnableDecryptionVerification(Security.Cryptography.AuthenticatedSymmetricAlgorithm,Security.Cryptography.AuthenticatedSymmetricEncryptionState,Security.Cryptography.SymmetricAlgorithmDiagnosticOptions)">
+            <summary>
+                Create an AuthenticatedSymmetricAlgorithm which verifies the decryption operations done on it
+                have state which matches captured encryption state.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricAlgorithmExtensionMethods.GetLastEncryptionState(Security.Cryptography.AuthenticatedSymmetricAlgorithm)">
+            <summary>
+                Get the last encryption state from an algorithm logged with an AuthenticatedSymmetricAlgorithmLogger.
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.AuthenticatedSymmetricAlgorithmLogger">
+            <summary>
+                Logging object for authenticated symmetric encryption
+                
+                See code:System.Security.Cryptography.SymmetricAlgorithmLogger#SymmetricAlgorithmDiagnostics
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.AuthenticatedSymmetricAlgorithmShim">
+            <summary>
+                Shim class for authenticated symmetric algorithms.  This class simply wraps an existing
+                authenticated symmetric algorithm and forwards all crypto operations on to that class.  It
+                provides hooks for capturing the creation of an encryptor or decryptor, which is used by the
+                authenticated symmetric algorithm logging and verification facility.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricAlgorithmShim.CheckThreadAccess">
+            <summary>
+                Check that the object is being accessed in a thread-safe manner
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricAlgorithmShim.Dispose(System.Boolean)">
+            <summary>
+                Clean up any resources that we hold onto
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.AuthenticatedSymmetricAlgorithmShim.WrappedAlgorithm">
+            <summary>
+                Authenticated symmetric algorithm that we're acting as a shim for
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.AuthenticatedSymmetricAlgorithmLogger.LastEncryptionState">
+            <summary>
+                Get the last captured encryption state
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.AuthenticatedSymmetricAlgorithmVerifier">
+            <summary>
+                Verification object for authenticated symmetric decryption.
+                
+                See code:System.Security.Cryptography.AuthenticatedSymmetricAlgorithmLogger#AuthenticatedSymmetricAlgorithmDiagnostics
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.AuthenticatedSymmetricEncryptionState">
+            <summary>
+                Opaque blob of parameters that were used to encrypt authenticated data
+                
+                See code:System.Security.Cryptography.AuthenticatedSymmetricAlgorithmLogger#AuthenticatedSymmetricAlgorithmDiagnostics
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.SymmetricEncryptionState">
+            <summary>
+                Opaque blob of parameters that were used to encrypt data
+                
+                See code:System.Security.Cryptography.SymmetricAlgorithmLogger#SymmetricAlgorithmDiagnostics
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.#ctor(System.Byte[],System.Byte[],System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+                Capture the parameters used for encryption, and verify that they make sense together
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.#ctor(Security.Cryptography.SymmetricEncryptionState)">
+            <summary>
+                Perform a deep copy of another symmetric encryption state
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.Clone">
+            <summary>
+                Make a deep copy of the current encryption state
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.VerifyDecryptionState(Security.Cryptography.SymmetricEncryptionState)">
+            <summary>
+                Verify that the input decryption state matches our encryption state, throwing an error if 
+                they do not.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.CipherModeUsesFeedback(System.Security.Cryptography.CipherMode)">
+            <summary>
+                Determine if a cipher mode uses feedback in its operation
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.CompareBytes(System.Byte[],System.Byte[])">
+            <summary>
+                Compare two byte arrays for equality
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.GetAlgorithmType(System.Type)">
+            <summary>
+                Given a symmetric algortihm implementation, find the abstract algorithm type it implements
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.HexString(System.Byte[])">
+            <summary>
+                Convert a byte array into a hex string
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricEncryptionState.ThrowDiagnosticException(System.String,System.Object[])">
+            <summary>
+                Throw a diagnostic error for the algorithm
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricEncryptionState.#ctor(System.Byte[],System.Byte[],System.Byte[],Security.Cryptography.AuthenticatedSymmetricAlgorithm)">
+            <summary>
+                Capture the parameters used for encryption, and verify that they make sense together
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricEncryptionState.#ctor(Security.Cryptography.AuthenticatedSymmetricEncryptionState)">
+            <summary>
+                Make a deep copy of the authenticated encryption state
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricEncryptionState.Clone">
+            <summary>
+                Make a deep copy of the authenticated encryption state
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.AuthenticatedSymmetricEncryptionState.VerifyDecryptionState(Security.Cryptography.SymmetricEncryptionState)">
+            <summary>
+                Verify that the input decryption state matches our encryption state, throwing an error if 
+                they do not.
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.CryptographicDiagnosticException">
+            <summary>
+                Exception thrown when a diagnostic check on a symmetric encryption or decryption operation fails
+                
+                See code:System.Security.Cryptography.SymmetricAlgorithmLogger#SymmetricAlgorithmDiagnostics
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.CryptographyLockContext`1">
+            <summary>
+                Context object used to check that correct locks are held upon access to a crypto object
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.CryptographyLockContext`1.Algorithm">
+            <summary>
+                Algorithm the lock is being checked on
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.CryptographyLockContext`1.Parameter">
+            <summary>
+                Optional extra information for checking the lock
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.SymmetricAlgorithmDiagnosticOptions">
+            <summary>
+                Configuration options for setting up the types of diagnostic checks that will be done by the
+                the verification process.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.SymmetricAlgorithmDiagnosticOptions.CheckThreadSafety">
+            <summary>
+                Should the symmetric algorithm diagnostics do thread safety checks
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.SymmetricAlgorithmDiagnosticOptions.LockCheckCallback">
+            <summary>
+                Callback to determine if the correct lock is held
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.SymmetricAlgorithmDiagnosticOptions.LockCheckParameter">
+            <summary>
+                Parameter to pass to the lock check callback in its context
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.SymmetricAlgorithmExtensionMethods">
+            <summary>
+                Extension methods for the SymmetricAlgorithm class which enable setting up logging and
+                verification.
+                
+                These methods know how to wire up verifiers for both SymmetricAlgorithms as well as subtypes of
+                SymmetricAlgorithm that require their own special logging (for instance
+                AuthenticatedSymmetricAlgorithm).  The reason that we need to put that logic in the central
+                SymmetricAlgorithm extension methods rather than in the specific subtype extension methods is
+                that we want to be able to hook up the correct type of logging regardless of the static type of
+                the object reference being logged.
+                
+                For instance, if code creates an AuthenticatedSymmetricAlgorithm and stores it in a
+                SymmetricAlgorithm variable, that's perfectly legal from a object model standpoint.  However, if
+                that code then attempts to hook up a logger / verifier to the algorithm, it won't be keeping
+                track of any extra authenticated state.
+                
+                See code:System.Security.Cryptography.SymmetricAlgorithmLogger#SymmetricAlgorithmDiagnostics
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricAlgorithmExtensionMethods.EnableLogging(System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+                Create a SymmetricAlgorithm which logs the encryption operation of the input algorithm, but
+                does not monitor for thread safe access to the object.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricAlgorithmExtensionMethods.EnableLogging(System.Security.Cryptography.SymmetricAlgorithm,Security.Cryptography.SymmetricAlgorithmDiagnosticOptions)">
+            <summary>
+                Create a SymmetricAlgorithm which logs the encryption operation of the input algorithm
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricAlgorithmExtensionMethods.EnableDecryptionVerification(System.Security.Cryptography.SymmetricAlgorithm,Security.Cryptography.SymmetricEncryptionState)">
+            <summary>
+                Create a SymmetricAlgorithm which verifies the decryption operations done on it have state
+                which matches captured encryption state. This overload does not monitor for thread safe
+                access to the object.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricAlgorithmExtensionMethods.EnableDecryptionVerification(System.Security.Cryptography.SymmetricAlgorithm,Security.Cryptography.SymmetricEncryptionState,Security.Cryptography.SymmetricAlgorithmDiagnosticOptions)">
+            <summary>
+                Create a SymmetricAlgorithm which verifies the decryption operations done on it have state
+                which matches captured encryption state.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricAlgorithmExtensionMethods.GetLastEncryptionState(System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+                Get the last encryption state from an algorithm logged with a SymmetricAlgorithmLogger.
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.SymmetricAlgorithmLogger">
+            <summary>
+                Logging object for symmetric encryption
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.SymmetricAlgorithmShim">
+            <summary>
+                Shim class for symmetric algorithms.  This class simply wraps an existing symmetric algorithm and
+                forwards all crypto operations on to that class.  It provides hooks for capturing the creation of
+                an encryptor or decryptor, which is used by the symmetric algorithm logging and verification
+                facility.
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricAlgorithmShim.CheckThreadAccess">
+            <summary>
+                Check that the object is being accessed in a thread-safe manner
+            </summary>
+        </member>
+        <member name="M:Security.Cryptography.SymmetricAlgorithmShim.Dispose(System.Boolean)">
+            <summary>
+                Clean up any resources that we hold onto
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="P:Security.Cryptography.SymmetricAlgorithmShim.WrappedAlgorithm">
+            <summary>
+                Symmetric algorithm that we're acting as a shim for
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.SymmetricAlgorithmLogger.LastEncryptionState">
+            <summary>
+                Get the last captured encryption state
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.SymmetricAlgorithmVerifier">
+            <summary>
+                Verification object for symmetric decryption.
+                
+                See code:System.Security.Cryptography.SymmetricAlgorithmLogger#SymmetricAlgorithmDiagnostics
+            </summary>
+        </member>
+        <member name="T:Security.Cryptography.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.AlgorithmMismatch">
+            <summary>
+              Looks up a localized string similar to Algorithm mismatch.
+               Encryption: {0}
+               Decryption: {1}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.AuthenticatedDataMismatch">
+            <summary>
+              Looks up a localized string similar to Authenticated data mismatch.
+               Encryption ({0} bits): {1}
+               Decryption ({2} bits): {3}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.AuthenticatedSymmetricAlgorithmStateString">
+            <summary>
+              Looks up a localized string similar to {0}
+             Authenticated data ({1} bits): {2}
+             CNG cipher mode: {3}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.BlockSizeMismatch">
+            <summary>
+              Looks up a localized string similar to Block size mismatch.
+               Encryption: {0}
+               Decryption: {1}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.CipherModeMismatch">
+            <summary>
+              Looks up a localized string similar to Cipher mode mismatch.
+               Encryption: {0}
+               Decryption: {1}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.CngChainingModeMismatch">
+            <summary>
+              Looks up a localized string similar to CNG chaining mode mismatch.
+               Encryption: {0}
+               Decryption: {1}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.EncryptionStateRequiresSymetricAlgorithmLogger">
+            <summary>
+              Looks up a localized string similar to Accessing the last encryption state requires using a SymmetricAlgorithmLogger.  Make sure that the SymmetricAlgorithm being used was acquired through a call to EnableLogging..
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.FeedbackSizeMismatch">
+            <summary>
+              Looks up a localized string similar to Feedback size mismatch.
+               Encryption: {0}
+               Decryption:  {1}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.IVMismatch">
+            <summary>
+              Looks up a localized string similar to IV mismatch.
+               Encryption: ({0} bits): {1}
+               Decryption:  ({2} bits): {3}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.KeyMismatch">
+            <summary>
+              Looks up a localized string similar to Key mismatch.
+               Encryption ({0} bits): {1}
+               Decryption ({2} bits): {3}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.NeedAuthenticatedEncryptionState">
+            <summary>
+              Looks up a localized string similar to Verifying an AuthenticatedSymmetricAlgorithm requires an AuthenticatedSymmetricEncryptionState..
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.NoEncryptionStateCaptured">
+            <summary>
+              Looks up a localized string similar to No encryption state has been captured yet..
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.PaddingModeMismatch">
+            <summary>
+              Looks up a localized string similar to Padding mode mismatch.
+               Encryption: {0}
+               Decryption: {1}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.SymmetricAlgorithmShimString">
+            <summary>
+              Looks up a localized string similar to {0}[{1}].
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.SymmetricAlgorithmStateString">
+            <summary>
+              Looks up a localized string similar to SymmetricAlgorithm State:
+             Algorithm: {0}
+             Cipher mode: {1}
+             Padding mode: {2}
+             Block size (bits): {3}
+             Feedback size (bits): {4}
+             Key ({5} bits): {6}
+             IV ({7} bits): {8}.
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.ThreadSafetyViolation">
+            <summary>
+              Looks up a localized string similar to A cryptographic object was not accessed in a thread safe manner..
+            </summary>
+        </member>
+        <member name="P:Security.Cryptography.Properties.Resources.Unknown">
+            <summary>
+              Looks up a localized string similar to Unknown.
+            </summary>
+        </member>
+    </members>
+</doc>
