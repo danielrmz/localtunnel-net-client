@@ -1,6 +1,8 @@
 localtunnel for windows
 =======================
 
+[![Build Status](https://travis-ci.org/danielrmz/localtunnel-net-client.png?branch=dev-v2)](https://travis-ci.org/danielrmz/localtunnel-net-client)
+
 Expose instantly your local webserver to the internet! 
 See [main project](https://github.com/progrium/localtunnel) for more info.
 
