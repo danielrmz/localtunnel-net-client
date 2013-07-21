@@ -125,7 +125,7 @@ namespace LocalTunnel.Library.Models
         /// <returns></returns>
         public static List<Port> GetUsedPorts()
         {
-            //return new List<Port>();
+            return new List<Port>();
             //using (SQLiteConnection connection = GetConnection())
             //{
             //    return (from p in connection.Table<Port>()
