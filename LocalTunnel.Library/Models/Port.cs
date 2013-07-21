@@ -63,35 +63,35 @@ namespace LocalTunnel.Library.Models
         /// <param name="portNumber"></param>
         /// <param name="serviceHost"></param>
         public static void AddUsage(string localHost, int portNumber, string serviceHost) {
-            List<Port> listUsed = GetUsedPorts();
-            Port found = null;
+            //List<Port> listUsed = GetUsedPorts();
+            //Port found = null;
 
-            if (listUsed.Count > 0)
-            {
-                found = listUsed.Where(port => port.Number == portNumber && port.Host == localHost && port.ServiceHost.ToLower().Trim().Equals(serviceHost.ToLower().Trim())).FirstOrDefault();
-            }
+            //if (listUsed.Count > 0)
+            //{
+            //    found = listUsed.Where(port => port.Number == portNumber && port.Host == localHost && port.ServiceHost.ToLower().Trim().Equals(serviceHost.ToLower().Trim())).FirstOrDefault();
+            //}
 
-            bool update = true;
-            if (found == null)
-            {
-                update = false;
-                found = new Port() { ServiceHost = serviceHost, Host = localHost, Number = portNumber, UsedTimes = 0 };
-            }
+            //bool update = true;
+            //if (found == null)
+            //{
+            //    update = false;
+            //    found = new Port() { ServiceHost = serviceHost, Host = localHost, Number = portNumber, UsedTimes = 0 };
+            //}
 
-            found.LastUsed = DateTime.Now;
-            found.UsedTimes = found.UsedTimes + 1;
+            //found.LastUsed = DateTime.Now;
+            //found.UsedTimes = found.UsedTimes + 1;
 
-            using (SQLiteConnection connection = GetConnection())
-            {
-                if (update)
-                {
-                    connection.Update(found);
-                }
-                else
-                {
-                    connection.Insert(found);
-                }
-            }
+            //using (SQLiteConnection connection = GetConnection())
+            //{
+            //    if (update)
+            //    {
+            //        connection.Update(found);
+            //    }
+            //    else
+            //    {
+            //        connection.Insert(found);
+            //    }
+            //}
 
         }
 
@@ -125,12 +125,13 @@ namespace LocalTunnel.Library.Models
         /// <returns></returns>
         public static List<Port> GetUsedPorts()
         {
-            using (SQLiteConnection connection = GetConnection())
-            {
-                return (from p in connection.Table<Port>()
-                        orderby p.LastUsed descending
-                        select p).ToList();
-            }
+            //return new List<Port>();
+            //using (SQLiteConnection connection = GetConnection())
+            //{
+            //    return (from p in connection.Table<Port>()
+            //            orderby p.LastUsed descending
+            //            select p).ToList();
+            //}
         }
 
         #endregion
