@@ -3,7 +3,6 @@ using System.IO;
 
 namespace Dex.Utilities
 {
-    using RSA = OpenSSL.Crypto.RSA;
     using Buffer = Tamir.SharpSsh.jsch.Buffer;
     using Encoding = System.Text.Encoding;
     using PemReader = Org.BouncyCastle.OpenSsl.PemReader;
