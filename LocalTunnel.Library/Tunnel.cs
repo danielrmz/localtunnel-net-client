@@ -285,7 +285,7 @@ namespace LocalTunnel.Library
             if (!File.Exists(pubKeyFile) || !File.Exists(privateKeyFile))
             {
                 string comment = string.Format("localtunnel-{0}", (int)((DateTime.Now - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds));
-                Dex.Utilities.Cyrpto.RsaKeyPair key = Dex.Utilities.Cyrpto.WriteRsaKeyPair(_bits, comment, privateKeyFile);
+                Dex.Utilities.Cyrpto.WriteRsaKeyPair(_bits, comment, privateKeyFile);
             }
 
             // TODO: Verify validity of the keypair, otherwise generate again. 
