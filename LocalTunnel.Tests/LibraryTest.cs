@@ -9,11 +9,13 @@ using System.IO;
 
 namespace LocalTunnel.Tests
 {
+    using NUnit.Framework;
+
     /// <summary>
     /// Tests the tunnel methods to assure it is connecting
     /// and forwarding the packets correctly
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class LibraryTest
     {
 
@@ -26,7 +28,7 @@ namespace LocalTunnel.Tests
         /// it creates a pair on the fly testing in the process
         /// the correct generation of these.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void TunnelTest()
         {
             const int port = 65534;

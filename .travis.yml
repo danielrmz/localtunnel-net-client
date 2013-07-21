@@ -1,0 +1,8 @@
+language: c
+ 
+install:
+  - sudo apt-get install mono-devel mono-gmcs nunit-console
+ 
+script:
+  - xbuild travis.proj
+  - nunit-console ./LocalTunnel.Tests/bin/x64/Debug/LocalTunnel.Tests.dll -exclude Integration,NotWorkingOnMono
