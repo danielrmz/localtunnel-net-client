@@ -5,4 +5,4 @@ install:
  
 script:
   - xbuild travis.proj
-  - nunit-console ./LocalTunnel.Tests/bin/x64/Debug/LocalTunnel.Tests.dll -exclude Integration,NotWorkingOnMono
+  - nunit-console ./LocalTunnel.Tests/bin/Debug/LocalTunnel.Tests.dll -exclude Integration,NotWorkingOnMono
