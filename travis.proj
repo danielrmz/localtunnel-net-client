@@ -4,7 +4,7 @@
   <Target Name="CI" DependsOnTargets="Build" />
  
   <Target Name="Build">
-    <MSBuild Projects="Localtunnel.sln" Properties="Configuration=Debug;Platform=x64" />
+    <MSBuild Projects="Localtunnel.sln" Properties="Configuration=Debug;Platform=Any CPU" />
   </Target>
  
 </Project>
