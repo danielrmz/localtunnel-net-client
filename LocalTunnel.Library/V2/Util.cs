@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Net.Sockets;
 
 namespace LocalTunnel.Library.V2
 {
@@ -11,49 +12,49 @@ namespace LocalTunnel.Library.V2
         /// <summary>
         /// Socket joining implementation
         /// </summary>
-        public void JoinSockets(/*a,b*/)
+        public static void JoinSockets(Socket a, Socket b)
         {
-            Action<object, object> _pipe = (from_, to) => {
+            Action<Socket, Socket> _pipe = (from_, to) => {
                 while (true)
                 {
                     try
                     {
-                        object data = null;// from_.recv(64 * 1024);
+                        byte[] data = null;
+                        from_.Receive(data); // from_.recv(64 * 1024);
                         if (data == null)
                         {
                             break;
                         }
                         try
                         {
-                            //to.sendall(data);
+                            to.Send(data); //to.sendall(data);
                         }
                         catch (Exception ex2)
                         {
-                            //from_.close();
+                            from_.Close(); 
                             break;
                         }
                     }
                     catch (Exception ex)
                     {
-                        // from_.close();
+                        from_.Close();
                         break;
                     }
                 }
 
                 try
                 {
-                    //to.close();
+                    to.Close();
                 }
                 catch (Exception ex3)
                 {
                 }
             };
             
-            //pool = eventlet.greenpool.GreenPool(size=2)
-            //pool.spawn_n(_pipe, a, b)
-            //pool.spawn_n(_pipe, b, a)
-            //return pool
-             
+            // pool = eventlet.greenpool.GreenPool(size=2)
+            // pool.spawn_n(_pipe, a, b)
+            // pool.spawn_n(_pipe, b, a)
+            // return pool
         }
 
         /// <summary>

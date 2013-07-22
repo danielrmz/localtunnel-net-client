@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalTunnel.Library", "LocalTunnel.Library\LocalTunnel.Library.csproj", "{4F99ECFF-632D-4B95-940D-0C6587DC18FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{99835E0A-3CA5-42AD-A2B7-43FB0C69A174}"
@@ -17,8 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4061806D-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4EE0903-7201-412C-9F17-F46FA424685F}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
 		.travis.yml = .travis.yml
+		.gitignore = .gitignore
+		.gitattributes = .gitattributes
 		README.markdown = README.markdown
 		travis.proj = travis.proj
 	EndProjectSection

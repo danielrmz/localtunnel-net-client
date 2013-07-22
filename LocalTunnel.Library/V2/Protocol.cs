@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net.Sockets;
 
 namespace LocalTunnel.Library.V2
 {
@@ -34,23 +35,39 @@ namespace LocalTunnel.Library.V2
         /// <summary>
         /// receives a message through the socket
         /// </summary>
-        public static Dictionary<string, object> RecvMessage(/*socket*/)
+        public static Dictionary<string, object> RecvMessage(Socket socket)
         {
-            //try:
-            //    header = socket.recv(4)
-            //    length = struct.unpack(">I", header)[0]
-            //    data = socket.recv(length)
-            //    message = json.loads(data)
-            //    return message
-            //except:
-            //    return
-            return null;
+            try
+            {
+                //    header = socket.recv(4)
+                //    length = struct.unpack(">I", header)[0]
+                //    data = socket.recv(length)
+                //    message = json.loads(data)
+                Dictionary<string,object> message = null;
+                return message;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
         /// Sends a message through the socket.
         /// </summary>
-        public static void SendMessage(/*socket, message*/)
+        public static void SendMessage(Socket socket, Dictionary<string, Dictionary<string, string>> message)
+        {
+            //data = json.dumps(message)
+            //header = struct.pack(">I", len(data))
+            //socket.sendall(''.join([header, data]))
+        }
+
+        /// <summary>
+        /// Sends a message through the socket
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="message"></param>
+        public static void SendMessage(Socket socket, Dictionary<string, string> message)
         {
             //data = json.dumps(message)
             //header = struct.pack(">I", len(data))

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Net.Sockets;
 
 namespace LocalTunnel.Library.V2
 {
@@ -17,31 +18,32 @@ namespace LocalTunnel.Library.V2
         /// <param name="client"></param>
         /// <param name="use_ssl"></param>
         /// <param name="ssl_opts"></param>
-        public void OpenProxyBackend(string backend, string target, string name, string client, bool use_ssl = false, object ssl_opts = null)
+        public void OpenProxyBackend(string backend, int backendPort, string target, int targetPort, string name, string client, bool useSsl = false, object sslOpts = null)
         {
 
-            /*
-              proxy = eventlet.connect(backend)
-            if use_ssl:
-                ssl_opts = ssl_opts or {}
-                proxy = eventlet.wrap_ssl(proxy, server_side=False, **ssl_opts)
-             
-            proxy.sendall(protocol.version)
-            */
-            Protocol.SendMessage();//proxy, Protocol.proxy_request(name, client));
+            Socket proxy = SocketWrapper.Connect(backend, backendPort); // proxy = eventlet.connect(backend)
+            SocketWrapper.Send(proxy, Protocol.version); // proxy.sendall(protocol.version)
 
-            var reply = Protocol.RecvMessage();//proxy);
+            if (useSsl)
+            {
+                // ssl_opts = ssl_opts or {}
+                // proxy = eventlet.wrap_ssl(proxy, server_side=False, **ssl_opts)
+            }
+             
+            Protocol.SendMessage(proxy, Protocol.proxy_request(name, client));
+
+            var reply = Protocol.RecvMessage(proxy);
 
             if (reply != null && reply.ContainsKey("proxy"))
             {
                 try
                 {
-                    // local = eventlet.connect(target)
-                    // util.join_sockets(proxy, local);
+                    Socket local = SocketWrapper.Connect(target, targetPort); // local = eventlet.connect(target)
+                    Util.JoinSockets(proxy, local); // util.join_sockets(proxy, local); 
                 }
                 catch (Exception ex)
                 {
-                    // proxy.close();
+                    proxy.Close();
                 }
             }
             else if (reply != null && reply.ContainsKey("error"))
@@ -84,21 +86,21 @@ namespace LocalTunnel.Library.V2
             string[] backend = new string[] { frontend_address, backend_port };
             string name = kwargs["name"].ToString();
             string client = Util.ClientName();
-            string target = Util.ParseAddress(kwargs["target"].ToString())[0];
+            string[] target = Util.ParseAddress(kwargs["target"].ToString());
 
             try
             {
-                
-                // control = eventlet.connect(backend)
+                Socket control = SocketWrapper.Connect(frontend_address, int.Parse(backend_port)); // control = eventlet.connect(backend)                
+
                 if(use_ssl) {
                     // control = eventlet.wrap_ssl(control, server_side=False, **ssl_opts)
                 }
-                
-                //control.sendall(Protocol.version)
-                
-                //Protocol.SendMessage(control, Protocol.control_request(name, client));
 
-                var reply = Protocol.RecvMessage();//control);
+                SocketWrapper.Send(control, Protocol.version); //control.sendall(Protocol.version)
+                
+                Protocol.SendMessage(control, Protocol.control_request(name, client));
+
+                var reply = Protocol.RecvMessage(control);
                 if (reply != null && reply.ContainsKey("control"))
                 {
                     var reply2 = reply["control"];
@@ -113,21 +115,21 @@ namespace LocalTunnel.Library.V2
 
                     // proxying = eventlet.spawn(maintain_proxy_backend_pool)
                     
-                    // Console.WriteLine(string.Format("{0}", reply["banner"]));
-                    // Console.WriteLine(string.Format("Port {0} is now accessible from http://{1} ...\n", target[1], reply["host"])); 
+                    Console.WriteLine(string.Format("{0}", reply["banner"]));
+                    Console.WriteLine(string.Format("Port {0} is now accessible from http://{1} ...\n", target[1], reply["host"])); 
 
                     try
                     {
                         while (true)
                         {
-                            var message = Protocol.RecvMessage();//control);
+                            var message = Protocol.RecvMessage(control);
                             if (!message.ContainsKey("control")
-                                || (message.ContainsKey("control") && message["control"] != Protocol.control_ping()["control"]))
+                                || (message.ContainsKey("control") && message["control"].ToString() != Protocol.control_ping()["control"]))
                             {
                                 throw new Exception("Not responding");
                             }
 
-                            Protocol.SendMessage();//control, Protocol.control_pong());
+                            Protocol.SendMessage(control, Protocol.control_pong());
                         }
                     }
                     catch (Exception ex3)

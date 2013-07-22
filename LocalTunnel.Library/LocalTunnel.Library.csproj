@@ -145,6 +145,7 @@
     <Compile Include="Models\ConfigurationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="V2\Protocol.cs" />
+    <Compile Include="V2\Socket.cs" />
     <Compile Include="V2\Tunnel.cs" />
     <Compile Include="V2\Util.cs" />
   </ItemGroup>
