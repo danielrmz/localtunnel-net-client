@@ -57,6 +57,31 @@ namespace Dex.Utilities
         }
 
         /// <summary>
+        /// Returns the response from the server
+        /// </summary>
+        /// <param name="host"></param>
+        /// <returns></returns>
+        public static WebResponse DoGet(string host) {
+            WebRequest request = WebRequest.Create(host);
+            WebResponse response = request.GetResponse();
+
+            return response; 
+        }
+
+        /// <summary>
+        /// Parses the response stream as a string
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        public static string ParseResponseStream(WebResponse response)
+        {
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                return reader.ReadToEnd();
+            } 
+        }
+
+        /// <summary>
         /// Creates a web request
         /// </summary>
         /// <param name="endPoint"></param>

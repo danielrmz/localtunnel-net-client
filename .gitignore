@@ -4,13 +4,14 @@ LocalTunnel.Console/obj/*
 LocalTunnel.Console/bin/*
 LocalTunnel.UI/bin/*
 LocalTunnel.UI/obj/*
-
+LocalTunnel.Tests/bin/*
+LocalTunnel.Tests/obj/*
 packages/Dex.Utilities/obj/*
 packages/Dex.Utilities/bin/*
 packages/Renci.SshClient/Renci.SshNet/bin/*
 packages/Renci.SshClient/Renci.SshNet/obj/*
 
-
+Localtunnel.v11.suo
 key
 key.pub
 build.force
@@ -20,3 +21,4 @@ build.force
 *.manifest
 *.application
 *.suo
+
