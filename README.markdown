@@ -1,3 +1,4 @@
+-- The project has been deprecated as localtunnel v1 service is no longer available. V3 written in Go should also work for Windows  --. 
 localtunnel for windows
 =======================
 
